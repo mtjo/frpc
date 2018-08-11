@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/framework7.material.min.css">
+    <link rel="stylesheet" href="css/framework7.material.colors.min.css">
+    <link rel="stylesheet" href="css/upscroller.css">
+    <link rel="stylesheet" href="css/my-app.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="http://app.miwifi.com/js/router_request.js"></script>
+    <title>frp客户端配置</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link href="css/reset.css" rel="stylesheet" type="text/css">
+    <link href="css/mui-switch.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="views">
+
+    <div class="view view-main">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <table width="100%">
+                    <tr>
+                        <td><font colour="#FFFFFF">插件状态</font></td>
+
+                        <td align="right"><input id="status" width="150"
+                                                 class="mui-switch mui-switch-anim" type="checkbox"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <a href="javascript:" style="display: none;"
+           class="floating-button addbtn color-pink"><i
+                class="icon icon-plus"></i></a>
+
+        <!--绑定-->
+        <div id="intisync"
+             style="width:100%; height: 100%; background-color: #ffffff;"
+             class="pages navbar-through toolbar-through">
+            <div class="page-content">
+
+                <div class="list-block" style="padding: 20px;">
+
+                    <center>
+                        <strong>基本配置</strong>
+                    </center>
+                    <hr/>
+                    <table style="width: 90%">
+                        <tr style="width: 30%">
+                            <td class="text_right">服务器：</td>
+                            <td><input id="server_addr" placeholder="127.0.0.1" type="text" name="server"></td>
+                        </tr>
+                        <tr>
+                            <td class="text_right">端口：</td>
+                            <td><input id="server_port" type="text" placeholder="7000" name="port"></td>
+                        </tr>
+                        <tr>
+                            <td class="text_right">token：</td>
+                            <td><input id="token" type="text" name="token："></td>
+                        </tr>
+                        <tr>
+                            <td class="text_right">日志记录：</td>
+                            <td><input id="log_on" width="150"
+                                       class="mui-switch mui-switch-anim" type="checkbox"></td>
+                        </tr>
+                        <!-- trace, debug, info, warn, error -->
+                        <tr class="text_right">
+                            <td>日志级别：</td>
+                            <td>
+                                <select id="log_level" name="log_level">
+                                    <option value="trace">trace</option>
+                                    <option value="debug">debug</option>
+                                    <option value="info">info</option>
+                                    <option value="warn">warn</option>
+                                    <option value="error">error</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td class="text_right">日志天数：</td>
+                            <td><input id="log_days" type="number" name="log_days" placeholder="3"></td>
+                        </tr>
+
+
+                        <tr class="text_right">
+                            <td>tcp_mux：</td>
+                            <td>
+                                <select id="tcp_mux" name="tcp_mux">
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select></td>
+                        </tr>
+
+                        <tr class="text_right">
+                            <td>协议：</td>
+                            <td>
+                                <select id="protocol" name="protocol">
+                                    <option value="tcp">tcp</option>
+                                    <option value="kcp">kcp</option>
+                                </select></td>
+                        </tr>
+                        <tr class="text_right">
+                            <td>login_fail_exit：</td>
+                            <td>
+                                <select id="login_fail_exit" name="protocol">
+                                    <option value="false">false</option>
+                                    <option value="true">true</option>
+                                </select></td>
+                        </tr>
+
+                    </table>
+                    <button id="savebase" class="button button-fill color-red"
+                            style="width: 100%">保存
+                    </button>
+
+                    <hr/>
+                </div>
+            </div>
+        </div>
+        <!--绑定-->
+
+
+        <div id="configlist"
+             class="pages navbar-through toolbar-through">
+            <div data-page="index" class="page">
+
+                <!--内容开始-->
+
+                <div class="page-content">
+
+                    <div class="list-block">
+                        <form action="" method="post">
+                            <ul>
+
+                            </ul>
+                        </form>
+                        <div class="row">
+                            <div class="col-100 ">
+                                <button id="save" class="button button-fill color-red"
+                                        style="width: 100%">保存
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/framework7.min.js"></script>
+<!-- Path to your app js-->
+<script type="text/javascript" src="js/upscroller.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
+<script>
+    $(".addbtn").click(function () {
+        $("ul").append('<li class="swipeout" >'
+            + '<div class="item-content">'
+            + '<div class="item-inner">'
+            + '<div class="item-title label">'
+            + '<textarea id = "local_files" name="local_files[]" id="" placeholder="请办输入路由器文件路径" >'
+            + '</textarea>'
+            + '</div>'
+            + '<div class="item-input">'
+            + '<select id="sync_type"><option value=0>上传</option><option value=1>上传+</option><option value=2>下载</option><option value=3>下载+</option><option value=4>同步</option></select> '
+            + '</div>'
+            + '<div class="item-title label">'
+            + '<textarea id = "remote_files"  placeholder="请办输入百度云文件路径" >'
+            + '</textarea>'
+            + '</div>'
+            + '<div class="item-input">'
+            + '<input id="sync_status" type="hidden" value="0">'
+            + '<input style = "float:right;" width="150" onChange="if($(this).prev().val()==1){$(this).prev().val(0)} else {$(this).prev().val(1)} ;" class="mui-switch mui-switch-anim" type="checkbox">'
+            + '</div>'
+            + '</div>'
+            + '<div class="swipeout-actions-right">'
+            + '<a href="#" class="swipeout-delete">Delete</a>'
+            + '</div>' + '</div>'
+            + '</li>'
+        );
+        $('.item-input').each(function (i) {
+            console.log($(this).find('img:first').attr('id', 'zoom' + i));
+            console.log($(this).find('img:first').next().attr('id', 'add' + i));
+        })
+    });
+
+    var userconfig;
+    var status = 0;
+    var appId = "2882303761517844809";
+
+
+    $(document).ready(function () {
+        $("#authorizeButton").click(function () {
+            if (!routerRequest.hasAccessToken()) {
+                routerRequest.authorize(window.location.href, appId);
+            }
+        });
+
+        $("#status").change(function () {
+            if (status == 0) {
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_enable",
+                    type: "GET",
+                    data: {
+                        appId: appId
+                    },
+                    success: function (res) {
+                        alert(res)
+                        status = 1
+                        show_hide(status);
+                    },
+                    error: function (data) {
+                        alert(data)
+                    }
+                });
+            } else {
+
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_disable",
+                    type: "GET",
+                    data: {
+                        appId: appId
+                    },
+                    success: function (res) {
+                        alert(res)
+                        status = 0
+                        show_hide(status);
+                    },
+                    error: function (data) {
+                        console.log("error:", data);
+                        alert(data)
+                    }
+                });
+
+            }
+        });
+
+        $("#savebase").click(function () {
+            server_addr = $("#server_addr").val();
+            server_port = $("#server_port").val();
+            token = $("#token").val();
+            log_file = $("#log_file").val();
+            log_level = $("#log_level").val();
+            tcp_mux = $("#tcp_mux").val();
+            protocol = $("#protocol").val();
+            tcp_mux = $("#tcp_mux").val();
+            login_fail_exit = $("#login_fail_exit").val();
+
+            datesend = {
+                operation: "config",
+                data: {
+                    common: {
+                        server_addr:server_addr!=""?server_addr:"127.0.0.1",
+                        server_port: server_port!=""?server_port:7000,
+                        token: token!=""?token:"",
+                        log_file: log_file!=""?log_file:"./frpc.log",
+                        log_level: log_level!=""?log_level:3,
+                        tcp_mux: tcp_mux,
+                        protocol: protocol,
+                        login_fail_exit: login_fail_exit,
+                        user: login_fail_exit
+                    }
+                }
+            };
+
+            alert(JSON.stringify(datesend));
+
+            routerRequest.request({
+                path: "/api-third-party/service/datacenter/plugin_control",
+                type: "GET",
+                data: {
+                    appId: appId,
+                    info: JSON.stringify(datesend)
+                },
+                success: function (data) {
+                    alert("success: " + data);
+                },
+                error: function (data) {
+                    alert("error:" + data);
+                }
+            });
+
+        });
+
+        $("#save").click(function () {
+            var tmpdata = [[]];
+            var local_files = [];
+            $("textarea#local_files").each(function () {
+                local_files.push($(this).val());
+            });
+
+            var sync_type = [];
+            $("select").each(function () {
+                sync_type.push($(this).val());
+            });
+
+            var remote_files = [];
+            $("textarea#remote_files").each(function () {
+                remote_files.push($(this).val());
+            });
+
+            var sync_status = [];
+            $("input#sync_status").each(function () {
+                sync_status.push($(this).val());
+            });
+            $.each(local_files, function (i, val) {
+                tmpdata[i] = {
+                    local_files: local_files[i],
+                    sync_type: sync_type[i],
+                    remote_files: remote_files[i],
+                    sync_status: sync_status[i]
+                };
+            });
+            console.log(tmpdata);
+            console.log(JSON.stringify(tmpdata));
+            encodefilesdata = encodeURIComponent(JSON.stringify(tmpdata));
+
+
+            //详细列表设置
+            routerRequest.request({
+                path: "/api-third-party/service/datacenter/set_config",
+                type: "GET",
+                data: {
+                    appId: appId,
+                    key: "filesdata",
+                    value: encodefilesdata
+                },
+                success: function (data) {
+                    var response = jQuery.parseJSON(data);
+                    if (response.code != 0) {
+                        console.log(data);
+                        alert("错误：" + response.msg);
+                        return;
+                    }
+                },
+                error: function (data) {
+                    console.log("error:", data);
+                    alert("网络失败");
+                }
+            });
+
+
+            return;
+        });
+
+        loadconfig();
+        show_hide(status);
+
+//
+
+        function loadconfig() {
+            //get_plugin_status 插件状态
+            // routerRequest.request({
+            // 	path : "api-third-party/service/datacenter/get_plugin_status",
+            // 	type : "GET",
+            // 	data : {
+            // 		appId : appId
+            // 	},
+            // 	success : function(data) {
+            // 		alert("get_plugin_status"+data)
+            // 		if (data.code==0) {
+            // 			status = data.isEnable?1:0;
+            // 			show_hide(status);
+            // 		}else{
+            // 			alert("错误：" + data);
+            // 		}
+            //
+            // 	},
+            // 	error : function(data) {
+            // 		console.log("error:", data);
+            // 		alert("get_plugin_status:"+data);
+            // 	}
+            // });
+
+            //文件设置
+            routerRequest.request({
+                path: "/api-third-party/service/datacenter/config_info",
+                type: "GET",
+                data: {
+                    appId: appId,
+                    key: "filesdata"
+                },
+                success: function (data) {
+                    var response = jQuery.parseJSON(data);
+                    if (response.code != 0) {
+                        console.log(data);
+                        alert("错误：" + response.msg);
+                        return;
+                    }
+                    filesdata = decodeURIComponent(response.value);
+                    //alert(filesdata);
+                    jsonobj = jQuery.parseJSON(filesdata);
+                    $.each(jsonobj, function (index, item) {
+                        if (item.sync_status == '1') {
+                            ischeck = 'checked=checked'
+                        } else {
+                            ischeck = ''
+                        }
+                        switch (item.sync_type) {
+                            case "0":
+                                type_option = '<option value=0 selected="selected">上传</option><option value=1>上传+</option><option value=2>下载</option><option value=3>下载+</option><option value=4>同步</option>';
+                                break;
+                            case "1":
+                                type_option = '<option value=0>上传</option><option value=1 selected="selected">上传+</option><option value=2>下载</option><option value=3>下载+</option><option value=4>同步</option>';
+                                break;
+                            case "2":
+                                type_option = '<option value=0>上传</option><option value=1>上传+</option><option value=2 selected="selected">下载</option><option value=3>下载+</option><option value=4>同步</option>';
+                                break;
+                            case "3":
+                                type_option = '<option value=0 selected="selected">上传</option><option value=1>上传+</option><option value=2>下载</option><option value=3 selected="selected">下载+</option><option value=4>同步</option>';
+                                break;
+                            case "4":
+                                type_option = '<option value=0 selected="selected">上传</option><option value=1>上传+</option><option value=2>下载</option><option value=3 >下载+</option><option value=4 selected="selected">同步</option>';
+                                break;
+                        }
+                        $("ul").append('<li class="swipeout" >'
+                            + '<div class="item-content">'
+                            + '<div class="item-inner">'
+                            + '<div class="item-title label">'
+                            + '<textarea id = "local_files" id="" placeholder="请办输入路由器文件路径" >'
+                            + item.local_files
+                            + '</textarea>'
+                            + '</div>'
+                            + '<div class="item-input">'
+                            + '<select id ="sync_type">'
+                            + type_option
+                            + '</select> '
+                            + '</div>'
+                            + '<div class="item-title label">'
+                            + '<textarea id = "remote_files" placeholder="请办输入百度云文件路径" >'
+                            + item.remote_files
+                            + '</textarea>'
+                            + '</div>'
+                            + '<div class="item-input">'
+                            + '<input id="sync_status" name="status[]" type="hidden" value="' + item.sync_status + '">'
+                            + '<input style = "float:right;" '
+                            + ischeck
+                            + ' width="150" onChange="if($(this).prev().val()==1){$(this).prev().val(0)} else {$(this).prev().val(1)} ;" class="mui-switch mui-switch-anim" type="checkbox">'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="swipeout-actions-right">'
+                            + '<a href="#" class="swipeout-delete">Delete</a>'
+                            + '</div>'
+                            + '</div>'
+                            + '</li>'
+                        );
+                    });
+                },
+                error: function (data) {
+                    console.log("error:", data);
+                    alert("网络失败");
+                }
+            });
+        }
+    });
+
+
+    function show_hide(show) {
+        // if (show == 1) {
+        //     $("#status").attr("checked", "checked");
+        //     $("#syncset").show();
+        //     $("#configlist").show();
+        //     $(".addbtn").show();
+        //     $("#intisync").hide();
+        // } else {
+        //     $("#status").removeAttr("checked");
+        //     $("#syncset").hide();
+        //     $("#configlist").hide();
+        //     $(".addbtn").hide();
+        //     $("#intisync").show();
+        // }
+    }
+</script>
+</body>
+</html>
+
