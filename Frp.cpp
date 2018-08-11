@@ -37,14 +37,15 @@ std::string exec(const char *cmd) {
 
 std::string
 Frp::onParameterRecieved(const std::string &params) {
-    const char* string =params;
+    const char *ch = params.data();
+//    params>>ch;
     struct json_object *obj_pck = NULL;
-    obj_pck = json_tokener_parse(string);
+    obj_pck = json_tokener_parse(ch);
     ((long)obj_pck < 0);  /**Json格式错误**/
     config();
     JSONObject object;
     object.put("data",(int)obj_pck);
-    return JSONObject::success(object);
+    return json_object_to_json_string(obj_pck);
 
 }
 

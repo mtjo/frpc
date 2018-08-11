@@ -19,7 +19,7 @@ dir :
 	mkdir -p $(BUILDDIR)dev
 
 makebinary :
-	$(CXX) $(CXXFLAGS) inifile.c Frp.cpp $(LIB_DIR) $(LDFLAGS) -o $(BINARY)
+	$(CXX) $(CXXFLAGS) JSON.cpp inifile.c Frp.cpp $(LIB_DIR) $(LDFLAGS) -o $(BINARY)
 	
 clean:
 	rm -r build

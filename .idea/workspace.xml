@@ -9,7 +9,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60cf32fe-e846-4a41-b53a-9f10a189cdf7" name="Default Changelist" comment="" />
+    <list default="true" id="60cf32fe-e846-4a41-b53a-9f10a189cdf7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Frp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Frp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.1.0.0.mpk" beforeDir="false" afterPath="$PROJECT_DIR$/app.1.0.0.mpk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Frpc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Frpc" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,8 +59,8 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Makefile" value="100" />
-          <entry key="cpp" value="775" />
+          <entry key="Makefile" value="109" />
+          <entry key="cpp" value="817" />
           <entry key="h" value="47" />
           <entry key="html" value="528" />
           <entry key="sh" value="31" />
@@ -66,8 +71,8 @@
         <counts>
           <entry key="Bash" value="19" />
           <entry key="HTML" value="528" />
-          <entry key="ObjectiveC" value="822" />
-          <entry key="PLAIN_TEXT" value="170" />
+          <entry key="ObjectiveC" value="864" />
+          <entry key="PLAIN_TEXT" value="179" />
         </counts>
       </usages-collector>
     </session>
@@ -86,8 +91,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Frp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="41" column="39" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
+            <state relative-caret-position="239">
+              <caret line="47" column="45" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -95,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JSON.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="20" column="28" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="28" />
+            <state relative-caret-position="378">
+              <caret line="76" column="22" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -122,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
-              <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="296">
+              <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -132,7 +137,7 @@
         <entry file="file://$PROJECT_DIR$/view/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="7215">
-              <caret line="481" column="35" lean-forward="true" selection-start-line="481" selection-start-column="35" selection-end-line="481" selection-end-column="35" />
+              <caret line="481" column="35" selection-start-line="481" selection-start-column="35" selection-end-line="481" selection-end-column="35" />
               <folding>
                 <element signature="e#1939#2001#0" expanded="true" />
                 <element signature="e#5644#5663#0" expanded="true" />
@@ -155,7 +160,7 @@
         <entry file="file://$PROJECT_DIR$/build/frp/frpc.ini">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -181,12 +186,16 @@
       <find>json</find>
       <find>status</find>
       <find>configlist</find>
-      <find>write_profile_string</find>
       <find>JSON</find>
+      <find>json_object</find>
+      <find>write_profile_string</find>
     </findStrings>
     <replaceStrings>
       <replace>frpc</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -199,10 +208,10 @@
         <option value="$PROJECT_DIR$/view/js/index.html" />
         <option value="$PROJECT_DIR$/frpc.sh" />
         <option value="$PROJECT_DIR$/Frp.h" />
-        <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/TaskWatcher.cpp" />
         <option value="$PROJECT_DIR$/view/index.html" />
         <option value="$PROJECT_DIR$/SaveConfig.cpp" />
+        <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/Frp.cpp" />
       </list>
     </option>
@@ -220,6 +229,7 @@
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -297,12 +307,12 @@
       <workItem from="1533787965905" duration="15000" />
       <workItem from="1533788028009" duration="12521000" />
       <workItem from="1533956887437" duration="1271000" />
-      <workItem from="1533961957840" duration="13892000" />
+      <workItem from="1533961957840" duration="15340000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42013000" />
+    <option name="totallyTimeSpent" value="43461000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="259" y="73" width="1400" height="1000" extended-state="0" />
@@ -321,7 +331,7 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="CMake" order="11" visible="true" weight="0.32929516" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -387,7 +397,7 @@
     <entry file="file://$PROJECT_DIR$/build/frp/frpc.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -398,17 +408,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7215">
-          <caret line="481" column="35" lean-forward="true" selection-start-line="481" selection-start-column="35" selection-end-line="481" selection-end-column="35" />
+          <caret line="481" column="35" selection-start-line="481" selection-start-column="35" selection-end-line="481" selection-end-column="35" />
           <folding>
             <element signature="e#1939#2001#0" expanded="true" />
             <element signature="e#5644#5663#0" expanded="true" />
@@ -443,15 +446,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JSON.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="20" column="28" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="28" />
+        <state relative-caret-position="378">
+          <caret line="76" column="22" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Frp.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="41" column="39" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
+        <state relative-caret-position="239">
+          <caret line="47" column="45" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
         </state>
       </provider>
     </entry>
