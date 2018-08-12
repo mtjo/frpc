@@ -14,6 +14,7 @@
 #include "json/json.h"
 #include "JSON.h"
 #include "inifile.h"
+
 #define BUF_SIZE 256
 
 std::string exec(const char *cmd) {
@@ -37,15 +38,27 @@ std::string exec(const char *cmd) {
 
 std::string
 Frp::onParameterRecieved(const std::string &params) {
+    std::string method = getMethod(params);
     const char *ch = params.data();
 //    params>>ch;
     struct json_object *obj_pck = NULL;
     obj_pck = json_tokener_parse(ch);
-    ((long)obj_pck < 0);  /**Json格式错误**/
+    ((long) obj_pck < 0);  /**Json格式错误**/
     config();
     JSONObject object;
-    object.put("data",(int)obj_pck);
-    return json_object_to_json_string(obj_pck);
+    object.put("data", json_object_object_length(obj_pck));
+
+    std::string keys = "";
+    json_object_object_foreach(obj_pck, key, val)
+    {
+
+        printf("\t%s: %s\n", key, json_object_to_json_string(val));
+        keys += key;
+    }
+    object.put("keys", keys);
+    object.put("method",method);
+    return JSONObject::success(object);
+    //return json_object_to_json_string(obj_pck);
 
 }
 
@@ -82,5 +95,21 @@ void Frp::config() {
     age = read_profile_int(section, age_key, 0, file);
     printf("%s=%d\n", age_key, age);
 }
+
+std::string
+Frp::getMethod(const std::string &params) {
+    const char *ch = params.data();
+    struct json_object *obj_pck = NULL;
+    obj_pck = json_tokener_parse(ch);
+    std::string method;
+    if ((long) obj_pck < 0) {/**Json格式错误**/
+        return "";
+    } else {
+        struct json_object *result_object = NULL;
+        result_object = json_object_object_get(obj_pck, "method");
+        return json_object_to_json_string(result_object);
+    }
+}
+
 
 Frp frp;
