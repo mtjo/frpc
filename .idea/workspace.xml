@@ -11,10 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="60cf32fe-e846-4a41-b53a-9f10a189cdf7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Frp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Frp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.1.0.0.mpk" beforeDir="false" afterPath="$PROJECT_DIR$/app.1.0.0.mpk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Frpc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Frpc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/view/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -35,8 +31,8 @@
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.open.time.7" value="2" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -48,6 +44,7 @@
           <entry key="h" value="11" />
           <entry key="html" value="6" />
           <entry key="ini" value="3" />
+          <entry key="js" value="1" />
           <entry key="project" value="2" />
           <entry key="sh" value="2" />
           <entry key="start_script" value="5" />
@@ -57,6 +54,7 @@
         <counts>
           <entry key="Bash" value="1" />
           <entry key="HTML" value="6" />
+          <entry key="JavaScript" value="1" />
           <entry key="ObjectiveC" value="21" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
@@ -66,7 +64,7 @@
           <entry key="Makefile" value="109" />
           <entry key="cpp" value="1774" />
           <entry key="h" value="102" />
-          <entry key="html" value="1980" />
+          <entry key="html" value="2319" />
           <entry key="sh" value="31" />
           <entry key="start_script" value="58" />
         </counts>
@@ -74,7 +72,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Bash" value="19" />
-          <entry key="HTML" value="1980" />
+          <entry key="HTML" value="2319" />
           <entry key="ObjectiveC" value="1876" />
           <entry key="PLAIN_TEXT" value="179" />
         </counts>
@@ -86,8 +84,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Frp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="99" column="5" selection-start-line="99" selection-start-column="5" selection-end-line="99" selection-end-column="5" />
+            <state relative-caret-position="1620">
+              <caret line="108" column="5" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -95,7 +93,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TaskWatcher.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="375">
               <caret line="25" selection-start-line="25" selection-end-line="43" selection-end-column="1" />
             </state>
           </provider>
@@ -131,11 +129,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="245" column="26" selection-start-line="245" selection-start-column="26" selection-end-line="245" selection-end-column="26" />
-              <folding>
-                <element signature="e#9425#9444#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="360">
+              <caret line="334" column="37" selection-start-line="334" selection-start-column="37" selection-end-line="334" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -144,7 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getPIDList</find>
       <find>WritePrivateProfileString</find>
       <find>iniparser_getstring</find>
       <find>Frpc</find>
@@ -174,6 +168,7 @@
       <find>server_addr</find>
       <find>common.</find>
       <find>{{key}}.</find>
+      <find>each</find>
     </findStrings>
     <replaceStrings>
       <replace>frpc</replace>
@@ -210,10 +205,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="3" />
+    <option name="x" value="94" />
     <option name="y" value="23" />
     <option name="width" value="1701" />
-    <option name="height" value="1064" />
+    <option name="height" value="977" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -221,7 +216,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -249,6 +243,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
     </panes>
@@ -343,17 +338,18 @@
       <workItem from="1533995719922" duration="220000" />
       <workItem from="1534044051459" duration="3953000" />
       <workItem from="1534122121745" duration="29389000" />
+      <workItem from="1534174626099" duration="3041000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77023000" />
+    <option name="totallyTimeSpent" value="80064000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3" y="23" width="1701" height="1064" extended-state="0" />
+    <frame x="94" y="23" width="1701" height="977" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22543702" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2278481" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
@@ -368,7 +364,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32921812" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32881355" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="CMake" order="11" weight="0.32881355" />
@@ -448,9 +444,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Frp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1620">
+          <caret line="108" column="5" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TaskWatcher.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="375">
           <caret line="25" selection-start-line="25" selection-end-line="43" selection-end-column="1" />
         </state>
       </provider>
@@ -459,13 +462,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="99" column="5" selection-start-line="99" selection-start-column="5" selection-end-line="99" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -483,13 +479,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/view/js/angular.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="197" column="99" selection-start-line="197" selection-start-column="99" selection-end-line="197" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="245" column="26" selection-start-line="245" selection-start-column="26" selection-end-line="245" selection-end-column="26" />
-          <folding>
-            <element signature="e#9425#9444#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="360">
+          <caret line="334" column="37" selection-start-line="334" selection-start-column="37" selection-end-line="334" selection-end-column="37" />
         </state>
       </provider>
     </entry>

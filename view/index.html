@@ -133,10 +133,10 @@
                                     <table>
                                         <tr>
                                             <td width="70">名称:</td>
-                                            <td><input class="name" v-model="value.name" placeholder="名称"/></td>
+                                            <td><input v-model="value.name" placeholder="名称"/></td>
                                             <td width="70">协议:</td>
                                             <td><select v-model="value.type">
-                                                <option value="tcp" >tcp</option>
+                                                <option value="tcp">tcp</option>
                                                 <option value="udp">udp</option>
                                                 <option value="stcp">stcp</option>
                                                 <option value="http">http</option>
@@ -145,30 +145,30 @@
                                         </tr>
                                         <tr>
                                             <td>IP:</td>
-                                            <td><input v-model="value.local_ip"  placeholder="内网地址">
+                                            <td><input v-model="value.local_ip" placeholder="内网地址">
                                             </td>
                                             <td>端口1</td>
-                                            <td><input  v-model="value.local_port" placeholder="内网端口">
+                                            <td><input v-model="value.local_port" placeholder="内网端口">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>端口2</td>
-                                            <td><input  v-model="value.local_port" placeholder="远程端口"></td>
+                                            <td><input v-model="value.local_port" placeholder="远程端口"></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr>
                                             <td>子域名</td>
-                                            <td><input  v-model="value.subdomain" placeholder="subdomain"></td>
+                                            <td><input v-model="value.subdomain" placeholder="subdomain"></td>
                                             <td>域名</td>
-                                            <td><input  v-model="value.custom_domains"/></td>
+                                            <td><input v-model="value.custom_domains"/></td>
                                         </tr>
                                         <tr>
                                             <td width="60">压缩</td>
-                                            <td><input width="150"  v-model="value.use_encryption"
+                                            <td><input width="150" v-model="value.use_encryption"
                                                        class="mui-switch mui-switch-anim" type="checkbox"></td>
                                             <td width="60">加密</td>
-                                            <td><input width="150"  v-model="value.use_compression"
+                                            <td><input width="150" v-model="value.use_compression"
                                                        class="mui-switch mui-switch-anim" type="checkbox"></td>
                                         </tr>
                                     </table>
@@ -209,8 +209,6 @@
 <script>
 
 
-
-
     var common = new Vue({
         el: '#common',
         data: {
@@ -232,43 +230,44 @@
     var lists = new Vue({
         el: '#v-for-object',
         data: {
-            object: {router:
+            object: [
                 {
+                    name: "router",
                     type: "tcp",
                     local_ip: "192.168.0.1",
                     local_port: "80",
                     use_encryption: true,
                     use_compression: false,
                     use_compression: false,
-                    subdomain:"web01",
-                    custom_domains:"web02.yourdomain.com"
+                    subdomain: "web01",
+                    custom_domains: "web02.yourdomain.com"
                 },
-                router_sss:{
+                {
+                    name: "web02",
                     type: "https",
                     local_ip: "127.0.0.1",
                     local_port: "8080",
                     use_encryption: true,
                     use_compression: false,
                     use_compression: false,
-                    subdomain:"web01",
-                    custom_domains:"web02.yourdomain.com"
-                }}
-
+                    subdomain: "web01",
+                    custom_domains: "web02.yourdomain.com"
+                }]
 
 
         }
     })
 
     $(".addbtn").click(function () {
-        lists.$data.object["tmpname"] ={
+        lists.$data.object["tmpname"] = {
             type: "https",
             local_ip: "127.0.0.1",
             local_port: "8080",
             use_encryption: true,
             use_compression: false,
             use_compression: false,
-            subdomain:"web01",
-            custom_domains:"web02.yourdomain.com"
+            subdomain: "web01",
+            custom_domains: "web02.yourdomain.com"
         }
     });
 
@@ -322,7 +321,7 @@
 
             }
         });
-
+        configlist = {};
         $("#savebase").click(function () {
             datesend = {
                 method: "config",
@@ -330,7 +329,17 @@
                     common: common.$data
                 }
             };
-            Object.assign(datesend.data, lists.$data.object);
+            //Object.assign(datesend.data, lists.$data.object);
+
+            $.each(lists.$data.object, function (index, item) {
+                key_name = item.name;
+                $.each(item, function (key, val) {
+
+                    configlist[key_name][key]=val;
+                    //datesend["data"][index][key]="";
+                    //configlist[item['name']][key]=val;
+                });
+            });
 
             alert(JSON.stringify(datesend));
 
