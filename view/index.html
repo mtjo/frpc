@@ -32,16 +32,17 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <table width="100%">
-                    <tr>
-                        <td><font colour="#FFFFFF">插件状态</font></td>
-
-                        <td align="right"><input id="status" width="150"
-                                                 class="mui-switch mui-switch-anim" type="checkbox"></td>
+                    <tr id="frpc_status">
+                        <td ><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
+                            <font color="red">进程:{{status}}</font></font></td>
+                        <td align="right"><input width="150" v-model="run_status" v-on:click="runFrpc(run_status)" class="mui-switch mui-switch-anim" type="checkbox"></td>
                     </tr>
                 </table>
 
             </div>
         </div>
+
+
         <a href="javascript:" style="display: none;"
            class="floating-button addbtn color-pink"><i
                 class="icon icon-plus"></i></a>
@@ -51,17 +52,19 @@
              style="width:100%; height: 100%; overflow :auto; background-color: #ffffff;"
              class="pages navbar-through toolbar-through">
             <div class="page-content">
-
                 <div class="list-block">
-                    <center>
-                        <strong>基本配置</strong>
+                    <center id="select_config">
+
+                        <input type="radio" name="config" id="red" value="base"><strong>基本配置</strong>
+                        <input type="radio" name="config" id="blue" value="user"><strong>自定义配置</strong>
+
                     </center>
                     <hr/>
                     <form id="common">
-                        <table style="width: 90%">
+                        <table align="center" style="width: 90%">
                             <tr style="width: 30%">
                                 <td class="text_right">服务器：</td>
-                                <td><input v-model="server_addr" placeholder="127.0.0.1"></td>
+                                <td><input v-model="server_addr" type="text" placeholder="127.0.0.1"></td>
                             </tr>
                             <tr>
                                 <td class="text_right">端口：</td>
@@ -69,7 +72,7 @@
                             </tr>
                             <tr>
                                 <td class="text_right">token：</td>
-                                <td><input v-model="token" type="text" name="token："></td>
+                                <td><input v-model="token" type="text" placeholder="token"></td>
                             </tr>
                             <tr>
                                 <td class="text_right">日志记录：</td>
@@ -80,7 +83,7 @@
                             <tr class="text_right">
                                 <td>日志级别：</td>
                                 <td>
-                                    <select model="log_level" name="log_level">
+                                    <select v-model="log_level" name="log_level">
                                         <option value="trace">trace</option>
                                         <option value="debug">debug</option>
                                         <option value="info">info</option>
@@ -96,11 +99,9 @@
 
                             <tr class="text_right">
                                 <td>tcp_mux：</td>
-                                <td>
-                                    <select v-model="tcp_mux">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select></td>
+                                <td class="text_left">
+                                    <input v-model="tcp_mux" class="mui-switch mui-switch-anim" type="checkbox"/>
+                                </td>
                             </tr>
 
                             <tr class="text_right">
@@ -113,11 +114,9 @@
                             </tr>
                             <tr class="text_right">
                                 <td>login_fail_exit：</td>
-                                <td>
-                                    <select v-model="login_fail_exit">
-                                        <option value="false">false</option>
-                                        <option value="true">true</option>
-                                    </select></td>
+                                <td class="text_left">
+                                    <input v-model="login_fail_exit" class="mui-switch mui-switch-anim"
+                                           type="checkbox"/>
                             </tr>
 
                         </table>
@@ -127,13 +126,13 @@
                     <center>列表</center>
                     <ul id="v-for-object">
 
-                        <li v-for="value in object" class="swipeout">
+                        <li v-for="(value,index) in object" class="swipeout">
                             <div class="item-content">
                                 <div class="item-inner">
                                     <table>
                                         <tr>
                                             <td width="70">名称:</td>
-                                            <td><input v-model="value.name" placeholder="名称"/></td>
+                                            <td><input v-model="value.name" type="text" placeholder="名称"/></td>
                                             <td width="70">协议:</td>
                                             <td><select v-model="value.type">
                                                 <option value="tcp">tcp</option>
@@ -145,23 +144,26 @@
                                         </tr>
                                         <tr>
                                             <td>IP:</td>
-                                            <td><input v-model="value.local_ip" placeholder="内网地址">
+                                            <td><input v-model="value.local_ip" type="text" placeholder="内网地址">
                                             </td>
                                             <td>端口1</td>
-                                            <td><input v-model="value.local_port" placeholder="内网端口">
+                                            <td><input v-model="value.local_port" type="text" placeholder="内网端口">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>端口2</td>
-                                            <td><input v-model="value.local_port" placeholder="远程端口"></td>
+                                            <td><input v-model="value.remote_port" type="text" placeholder="远程端口">
+                                            </td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr>
                                             <td>子域名</td>
-                                            <td><input v-model="value.subdomain" placeholder="subdomain"></td>
+                                            <td><input v-model="value.subdomain" type="text"
+                                                       placeholder="subdomain"></td>
                                             <td>域名</td>
-                                            <td><input v-model="value.custom_domains"/></td>
+                                            <td><input v-model="value.custom_domains" type="text"
+                                                       placeholder="custom_domains"/></td>
                                         </tr>
                                         <tr>
                                             <td width="60">压缩</td>
@@ -174,7 +176,10 @@
                                     </table>
 
 
-                                    <div class="swipeout-actions-right"><a href="#" class="swipeout-delete">删除</a></div>
+                                    <div class="swipeout-actions-right"><a :del_id="index" href=""
+                                                                           onclick="deletelist(this)"
+                                                                           class="swipeout-delete">删除</a>
+                                    </div>
                                 </div>
                             </div>
                         </li>
@@ -207,75 +212,29 @@
     </div>
 </template>
 <script>
-
-
-    var common = new Vue({
-        el: '#common',
-        data: {
-            server_addr: "127.0.0.1",
-            server_port: "7000",
-            token: "12345678",
-            log_on: true,
-            log_file: "./frpc.log",
-            log_days: 3,
-            log_level: "error",
-            tcp_mux: true,
-            protocol: "tcp",
-            tcp_mux: true,
-            login_fail_exit: false
-        }
-    })
-
-
-    var lists = new Vue({
-        el: '#v-for-object',
-        data: {
-            object: [
-                {
-                    name: "router",
-                    type: "tcp",
-                    local_ip: "192.168.0.1",
-                    local_port: "80",
-                    use_encryption: true,
-                    use_compression: false,
-                    use_compression: false,
-                    subdomain: "web01",
-                    custom_domains: "web02.yourdomain.com"
-                },
-                {
-                    name: "web02",
-                    type: "https",
-                    local_ip: "127.0.0.1",
-                    local_port: "8080",
-                    use_encryption: true,
-                    use_compression: false,
-                    use_compression: false,
-                    subdomain: "web01",
-                    custom_domains: "web02.yourdomain.com"
-                }]
-
-
-        }
-    })
+    var commonConfig = {};
+    var configList = [];
+    var common;
+    var lists;
+    var frpc_status;
 
     $(".addbtn").click(function () {
-        lists.$data.object["tmpname"] = {
-            type: "https",
-            local_ip: "127.0.0.1",
-            local_port: "8080",
-            use_encryption: true,
+        configList.push({
+            type: "http",
+            local_ip: "",
+            local_port: "",
+            remote_port: "",
+            use_encryption: false,
             use_compression: false,
             use_compression: false,
-            subdomain: "web01",
-            custom_domains: "web02.yourdomain.com"
-        }
+            subdomain: "",
+            custom_domains: ""
+        })
+
     });
 
-
-    var userconfig;
     var status = 0;
     var appId = "2882303761517844809";
-
 
     $(document).ready(function () {
         $("#authorizeButton").click(function () {
@@ -284,64 +243,49 @@
             }
         });
 
-        $("#status").change(function () {
-            if (status == 0) {
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_enable",
-                    type: "GET",
-                    data: {
-                        appId: appId
-                    },
-                    success: function (res) {
-                        alert(res)
-                        status = 1
-                        show_hide(status);
-                    },
-                    error: function (data) {
-                        alert(data)
-                    }
-                });
-            } else {
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_disable",
-                    type: "GET",
-                    data: {
-                        appId: appId
-                    },
-                    success: function (res) {
-                        alert(res)
-                        status = 0
-                        show_hide(status);
-                    },
-                    error: function (data) {
-                        console.log("error:", data);
-                        alert(data)
-                    }
-                });
-
-            }
-        });
-        configlist = {};
         $("#savebase").click(function () {
-            datesend = {
-                method: "config",
-                data: {
-                    common: common.$data
-                }
-            };
-            //Object.assign(datesend.data, lists.$data.object);
 
+            configData = {common: common.$data};
             $.each(lists.$data.object, function (index, item) {
                 key_name = item.name;
+                configData[key_name] = {}
                 $.each(item, function (key, val) {
-
-                    configlist[key_name][key]=val;
-                    //datesend["data"][index][key]="";
-                    //configlist[item['name']][key]=val;
+                    if (key != "name") {
+                        configData[key_name][key] = val;
+                    }
                 });
             });
 
-            alert(JSON.stringify(datesend));
+            datesend = {
+                method: "saveConfig",
+                data: configData
+            };
+            //alert(JSON.stringify(datesend));
+            configData = encodeURIComponent(JSON.stringify(configData));
+
+            //详细列表设置
+            routerRequest.request({
+                path: "/api-third-party/service/datacenter/set_config",
+                type: "GET",
+                data: {
+                    appId: appId,
+                    key: "frpc_config",
+                    value: configData
+                },
+                success: function (data) {
+                    var response = jQuery.parseJSON(data);
+                    if (response.code != 0) {
+                        console.log(data);
+                        alert("错误：" + response.msg);
+                        return;
+                    }
+                },
+                error: function (data) {
+                    console.log("set_config:", data);
+                    alert("网络失败");
+                }
+            });
+
 
             routerRequest.request({
                 path: "/api-third-party/service/datacenter/plugin_control",
@@ -351,40 +295,19 @@
                     info: JSON.stringify(datesend)
                 },
                 success: function (data) {
-                    alert("success: " + data);
-                },
-                error: function (data) {
-                    alert("error:" + data);
-                }
-            });
-
-            console.log(JSON.stringify(tmpdata));
-            encodefilesdata = encodeURIComponent(JSON.stringify(tmpdata));
-
-
-            //详细列表设置
-            routerRequest.request({
-                path: "/api-third-party/service/datacenter/set_config",
-                type: "GET",
-                data: {
-                    appId: appId,
-                    key: "filesdata",
-                    value: encodefilesdata
-                },
-                success: function (data) {
                     var response = jQuery.parseJSON(data);
                     if (response.code != 0) {
                         console.log(data);
                         alert("错误：" + response.msg);
                         return;
                     }
+                    alert("配置保存成功，请重启frpc进程")
+
                 },
                 error: function (data) {
-                    console.log("error:", data);
-                    alert("网络失败");
+                    alert("saveconfig:" + data);
                 }
             });
-
 
             return;
         });
@@ -392,45 +315,193 @@
         loadconfig();
         show_hide(status);
 
-//
-
-        function loadconfig() {
-
-            //文件设置
-            routerRequest.request({
-                path: "/api-third-party/service/datacenter/config_info",
-                type: "GET",
-                data: {
-                    appId: appId,
-                    key: "filesdata"
-                },
-                success: function (data) {
-                    var response = jQuery.parseJSON(data);
-                    if (response.code != 0) {
-                        console.log(data);
-                        alert("错误：" + response.msg);
-                        return;
-                    }
-                    alert(data);
-                    filesdata = decodeURIComponent(response.value);
-                    //alert(filesdata);
-                    jsonobj = jQuery.parseJSON(filesdata);
-                    $.each(jsonobj, function (index, item) {
-                    });
-                    // new Vue({
-                    //     el: '#v-for-object',
-                    //     data: {object: jsonobj}
-                    // })
-
-                },
-                error: function (data) {
-                    console.log("error:", data);
-                    alert("网络失败");
-                }
-            });
-        }
     });
 
+
+    function loadconfig() {
+        //启用插件
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/plugin_enable",
+            type: "GET",
+            data: {
+                appId: appId
+            },
+            success: function (res) {
+            },
+            error: function (data) {
+            }
+        });
+
+        //代理设置
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/config_info",
+            type: "GET",
+            data: {
+                appId: appId,
+                key: "frpc_config"
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    alert("错误：" + response.msg);
+                    return;
+                }
+                //alert(data);
+
+                frpc_config = decodeURIComponent(response.value);
+                //alert(frpc_config);
+                if (frpc_config == "") {
+                    commonConfig = {
+                        server_addr: "",
+                        server_port: "",
+                        token: "",
+                        log_on: true,
+                        log_file: "./frpc.log",
+                        log_days: "",
+                        log_level: "error",
+                        tcp_mux: true,
+                        protocol: "tcp",
+                        tcp_mux: false,
+                        login_fail_exit: false
+                    };
+
+                    configList = [{
+                        name: "router",
+                        type: "tcp",
+                        local_ip: "frp.mtjo.net",
+                        local_port: "80",
+                        use_encryption: true,
+                        use_compression: false,
+                        use_compression: false,
+                        subdomain: "mtjo",
+                        custom_domains: "router.mtjo.net"
+                    },
+                        {
+                            name: "ssh",
+                            type: "https",
+                            local_ip: "127.0.0.1",
+                            local_port: "2222",
+                            use_encryption: true,
+                            use_compression: false,
+                            use_compression: false,
+                            subdomain: "",
+                            custom_domains: ""
+                        }];
+
+                } else {
+                    jsonobj = jQuery.parseJSON(frpc_config);
+
+                    //alert(jsonobj)
+                    i = 0
+                    $.each(jsonobj, function (index, item) {
+                        if (index == "common") {
+                            commonConfig = item;
+                        } else {
+                            item['name'] = index;
+                            configList[i++] = item;
+                        }
+
+                    });
+                    //alert(JSON.stringify(commonConfig));
+                    //alert(JSON.stringify(configList));
+                }
+                common = new Vue({
+                    el: '#common',
+                    data: commonConfig
+                })
+
+                lists = new Vue({
+                    el: '#v-for-object',
+                    data: {
+                        object: configList
+                    }
+
+                })
+
+            },
+            error: function (data) {
+                console.log("error:", data);
+                alert("网络失败");
+            }
+        });
+
+
+        //插件状态
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/plugin_control",
+            type: "GET",
+            data: {
+                appId: appId,
+                info: JSON.stringify({method: "getStatus"})
+            },
+            success: function (data) {
+
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    alert("错误：" + response.msg);
+                    return;
+                }
+                alert(data);
+
+                var ps = response.data.ps;
+
+                var reCat = /\d+\W\d+\W[(?!.*sh)((?!.*frpc -c))]/g;
+
+                var res = ps.match(reCat);
+                alert(res);
+                response.data["run_status"] = true;
+                frpc_status = new Vue({
+                    el: '#frpc_status',
+                    data: response.data,
+                    methods:{
+                            runFrpc:function(item){
+                                method = "";
+                                if (item){
+                                    method ="runFrpc";
+                                } else{
+                                    method ="stopFrpc";
+                                }
+                                alert(method);
+                                routerRequest.request({
+                                    path: "/api-third-party/service/datacenter/plugin_control",
+                                    type: "GET",
+                                    data: {
+                                        appId: appId,
+                                        info: JSON.stringify({method: method})
+                                    },
+                                    success: function (data) {
+                                        var response = jQuery.parseJSON(data);
+                                        // if (response.code != 0) {
+                                        //     console.log(data);
+                                        //     alert("错误：" + response.msg);
+                                        //     return;
+                                        // }
+                                        alert(data);
+
+                                    },
+                                    error: function (data) {
+                                        alert("plugin_control:" + data);
+                                    }
+                                });
+                            }
+                        }
+                })
+
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
+            }
+        });
+
+
+    }
+
+    function deletelist(obj) {
+        del_id = $(obj).attr("del_id");
+        configList.splice(del_id, 1);
+    }
 
     function show_hide(show) {
         $("#status").attr("checked", "checked");
@@ -439,6 +510,14 @@
         $(".addbtn").show();
         $("#intisync").show();
     }
+    var a = '16133 root      776m S    /etc/misstar/applications/frp/bin/frpc -c /etc/misstar/applications/frp/config/frpc.conf\n' +
+        '18699 28823037  1588 S    /bin/sh -c ./frp/frpc -c ./frp/frpc_full.ini &>/dev/null\n' +
+        '18700 28823037  777m S    ./frp/frpc -c ./frp/frpc_full.ini\n' +
+        '19468 root      1584 S    grep frpc';
+    var b = a.match(/\d+\W\d+\W(?!.*bin)/g);
+    console.log(b);
+
+
 </script>
 </body>
 </html>

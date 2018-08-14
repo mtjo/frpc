@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <string>
+#include <regex>
 
 using std::string;
 
@@ -46,7 +47,7 @@ Frp::onParameterRecieved(const std::string &params) {
     JSONObject data;
     if (method == "") {
         return JSONObject::error(999, "method can not be null");
-    }else if(method == "config"){
+    } else if (method == "saveConfig") {
         data.put("method", method);
         std::string jsondata = getData(params);
         //data.put("data", jsondata);
@@ -63,10 +64,25 @@ Frp::onParameterRecieved(const std::string &params) {
         }
         json_object_put(jsonObject);
         return JSONObject::success(data);
+    } else if (method == "getStatus") {
+        std::string version = exec("frp/frpc -v");
+        std::string ps = exec("ps -w|grep frp/frpc");
+
+        data.put("version", version);
+        data.put("ps", ps);
+
+        return JSONObject::success(data);
+
+
+    } else if (method == "runFrpc") {
+        system("./frp/frpc -c ./frp/frpc_full.ini &>/dev/null");
+        return JSONObject::success();
+    } else if (method == "stopFrpc") {
+        system("killall frp/frpc");
+        return JSONObject::success();
     }
 
-    return JSONObject::error(1,"parameter missing");
-
+    return JSONObject::error(1, "parameter missing");
 
 
 }
@@ -137,6 +153,7 @@ Frp::getData(const std::string &params) {
 
 void
 Frp::saveConfig(struct json_object *configData) {
+    exec("rm -f etc/frpc_config.ini");
     const char *file = "etc/frpc_config.ini";
     json_object_object_foreach(configData, section, val)
     {
