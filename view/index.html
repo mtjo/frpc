@@ -443,15 +443,28 @@
                     alert("错误：" + response.msg);
                     return;
                 }
-                alert(data);
+                //alert(data);
 
                 var ps = response.data.ps;
 
-                var reCat = /\d+\W\d+\W[(?!.*sh)((?!.*frpc -c))]/g;
+                var reg = /(\d+)((?=.*frpc -c)(?!.*sh))/g;
 
-                var res = ps.match(reCat);
-                alert(res);
-                response.data["run_status"] = true;
+                var res = ps.match(reg);
+                //alert(res);
+
+                var pid = 0;
+                if (res!=null&& res.length>0){
+                    pid = res[0];
+                }
+                if (pid>0){
+                    response.data.status = pid;
+                    response.data.run_status = true;
+                }else{
+                    response.data.status = "未运行";
+                    response.data.run_status = false;
+
+
+                }
                 frpc_status = new Vue({
                     el: '#frpc_status',
                     data: response.data,
@@ -510,13 +523,6 @@
         $(".addbtn").show();
         $("#intisync").show();
     }
-    var a = '16133 root      776m S    /etc/misstar/applications/frp/bin/frpc -c /etc/misstar/applications/frp/config/frpc.conf\n' +
-        '18699 28823037  1588 S    /bin/sh -c ./frp/frpc -c ./frp/frpc_full.ini &>/dev/null\n' +
-        '18700 28823037  777m S    ./frp/frpc -c ./frp/frpc_full.ini\n' +
-        '19468 root      1584 S    grep frpc';
-    var b = a.match(/\d+\W\d+\W(?!.*bin)/g);
-    console.log(b);
-
 
 </script>
 </body>

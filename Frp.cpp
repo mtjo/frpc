@@ -19,8 +19,18 @@ using std::string;
 #include "json/json.h"
 #include "JSON.h"
 #include "inifile.h"
+#include "DataTransfer.h"
+
+using router::DataTransfer;
+
 
 #define BUF_SIZE 256
+
+void
+Frp::onLaunched(const std::vector <std::string> &parameters) {
+    runFrpc();
+};
+
 
 std::string exec(const char *cmd) {
     char buffer[128];
@@ -75,11 +85,17 @@ Frp::onParameterRecieved(const std::string &params) {
 
 
     } else if (method == "runFrpc") {
-        system("./frp/frpc -c ./frp/frpc_full.ini &>/dev/null");
+        router::DataTransfer::saveData("run_status", "1");
+        runFrpc();
         return JSONObject::success();
     } else if (method == "stopFrpc") {
-        system("killall frp/frpc");
-        return JSONObject::success();
+        router::DataTransfer::saveData("run_status", "0");
+        std::string run_status;
+        router::ErrorCode::Code resCode = router::DataTransfer::getData("run_status", run_status);
+        data.put("rescode",resCode);
+        data.put("run_status",run_status);
+        stopFrpc();
+        return JSONObject::success(data);
     }
 
     return JSONObject::error(1, "parameter missing");
@@ -164,5 +180,17 @@ Frp::saveConfig(struct json_object *configData) {
     }
 }
 
+void Frp::runFrpc() {
+    std::string run_status;
+    router::DataTransfer::getData("run_status", run_status);
+
+    if (run_status == "1") {
+        system("./frp/frpc -c ./frp/frpc_full.ini &>/dev/null");
+    }
+}
+
+void Frp::stopFrpc() {
+    system("killall frp/frpc");
+}
 
 Frp frp;
