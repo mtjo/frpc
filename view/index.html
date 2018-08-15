@@ -25,7 +25,6 @@
 </head>
 
 <body>
-
 <div class="views">
 
     <div class="view view-main">
@@ -33,168 +32,190 @@
             <div class="navbar-inner">
                 <table width="100%">
                     <tr id="frpc_status">
-                        <td ><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
+                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
                             <font color="red">进程:{{status}}</font></font></td>
-                        <td align="right"><input width="150" v-model="run_status" v-on:click="runFrpc(run_status)" class="mui-switch mui-switch-anim" type="checkbox"></td>
+                        <td align="right"><input width="150" v-model="run_status" v-on:click="runFrpc(run_status)"
+                                                 class="mui-switch mui-switch-anim" type="checkbox"></td>
                     </tr>
                 </table>
 
             </div>
         </div>
-
-
-        <a href="javascript:" style="display: none;"
-           class="floating-button addbtn color-pink"><i
-                class="icon icon-plus"></i></a>
-
-        <!--绑定-->
         <div id="intisync"
              style="width:100%; height: 100%; overflow :auto; background-color: #ffffff;"
              class="pages navbar-through toolbar-through">
             <div class="page-content">
-                <div class="list-block">
-                    <center id="select_config">
+        <ul class="tabs">
+            <li>
+                <input type="radio" name="tabs" id="tab1" checked />
+                <label for="tab1">基本配置</label>
+                <div id="tab-content1" class="tab-content">
 
-                        <input type="radio" name="config" id="red" value="base"><strong>基本配置</strong>
-                        <input type="radio" name="config" id="blue" value="user"><strong>自定义配置</strong>
+                    <div class="list-block">
+                        <center id="select_config">
 
-                    </center>
-                    <hr/>
-                    <form id="common">
-                        <table align="center" style="width: 90%">
-                            <tr style="width: 30%">
-                                <td class="text_right">服务器：</td>
-                                <td><input v-model="server_addr" type="text" placeholder="127.0.0.1"></td>
-                            </tr>
-                            <tr>
-                                <td class="text_right">端口：</td>
-                                <td><input v-model="server_port" type="text" placeholder="7000" name="port"></td>
-                            </tr>
-                            <tr>
-                                <td class="text_right">token：</td>
-                                <td><input v-model="token" type="text" placeholder="token"></td>
-                            </tr>
-                            <tr>
-                                <td class="text_right">日志记录：</td>
-                                <td><input v-model="log_on" width="150"
-                                           class="mui-switch mui-switch-anim" type="checkbox"></td>
-                            </tr>
-                            <!-- trace, debug, info, warn, error -->
-                            <tr class="text_right">
-                                <td>日志级别：</td>
-                                <td>
-                                    <select v-model="log_level" name="log_level">
-                                        <option value="trace">trace</option>
-                                        <option value="debug">debug</option>
-                                        <option value="info">info</option>
-                                        <option value="warn">warn</option>
-                                        <option value="error">error</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
-                                <td class="text_right">日志天数：</td>
-                                <td><input v-model="log_days" type="number" name="log_days" placeholder="3"></td>
-                            </tr>
+                            <input type="radio" name="config" id="red" value="base"><strong>基本配置</strong>
+                            <input type="radio" name="config" id="blue" value="user"><strong>自定义配置</strong>
 
-
-                            <tr class="text_right">
-                                <td>tcp_mux：</td>
-                                <td class="text_left">
-                                    <input v-model="tcp_mux" class="mui-switch mui-switch-anim" type="checkbox"/>
-                                </td>
-                            </tr>
-
-                            <tr class="text_right">
-                                <td>协议：</td>
-                                <td>
-                                    <select v-model="protocol">
-                                        <option value="tcp">tcp</option>
-                                        <option value="kcp">kcp</option>
-                                    </select></td>
-                            </tr>
-                            <tr class="text_right">
-                                <td>login_fail_exit：</td>
-                                <td class="text_left">
-                                    <input v-model="login_fail_exit" class="mui-switch mui-switch-anim"
-                                           type="checkbox"/>
-                            </tr>
-
-                        </table>
+                        </center>
                         <hr/>
-
-                    </form>
-                    <center>列表</center>
-                    <ul id="v-for-object">
-
-                        <li v-for="(value,index) in object" class="swipeout">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <table>
-                                        <tr>
-                                            <td width="70">名称:</td>
-                                            <td><input v-model="value.name" type="text" placeholder="名称"/></td>
-                                            <td width="70">协议:</td>
-                                            <td><select v-model="value.type">
-                                                <option value="tcp">tcp</option>
-                                                <option value="udp">udp</option>
-                                                <option value="stcp">stcp</option>
-                                                <option value="http">http</option>
-                                                <option value="https">https</option>
-                                            </select></td>
-                                        </tr>
-                                        <tr>
-                                            <td>IP:</td>
-                                            <td><input v-model="value.local_ip" type="text" placeholder="内网地址">
-                                            </td>
-                                            <td>端口1</td>
-                                            <td><input v-model="value.local_port" type="text" placeholder="内网端口">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>端口2</td>
-                                            <td><input v-model="value.remote_port" type="text" placeholder="远程端口">
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>子域名</td>
-                                            <td><input v-model="value.subdomain" type="text"
-                                                       placeholder="subdomain"></td>
-                                            <td>域名</td>
-                                            <td><input v-model="value.custom_domains" type="text"
-                                                       placeholder="custom_domains"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60">压缩</td>
-                                            <td><input width="150" v-model="value.use_encryption"
-                                                       class="mui-switch mui-switch-anim" type="checkbox"></td>
-                                            <td width="60">加密</td>
-                                            <td><input width="150" v-model="value.use_compression"
-                                                       class="mui-switch mui-switch-anim" type="checkbox"></td>
-                                        </tr>
-                                    </table>
+                        <form id="common">
+                            <table align="center" style="width: 90%">
+                                <tr style="width: 30%">
+                                    <td class="text_right">服务器：</td>
+                                    <td><input v-model="server_addr" type="text" placeholder="127.0.0.1"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text_right">端口：</td>
+                                    <td><input v-model="server_port" type="text" placeholder="7000" name="port"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text_right">token：</td>
+                                    <td><input v-model="token" type="text" placeholder="token"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text_right">日志记录：</td>
+                                    <td><input v-model="log_on" width="150"
+                                               class="mui-switch mui-switch-anim" type="checkbox"></td>
+                                </tr>
+                                <!-- trace, debug, info, warn, error -->
+                                <tr class="text_right">
+                                    <td>日志级别：</td>
+                                    <td>
+                                        <select v-model="log_level" name="log_level">
+                                            <option value="trace">trace</option>
+                                            <option value="debug">debug</option>
+                                            <option value="info">info</option>
+                                            <option value="warn">warn</option>
+                                            <option value="error">error</option>
+                                        </select></td>
+                                </tr>
+                                <tr>
+                                    <td class="text_right">日志天数：</td>
+                                    <td><input v-model="log_days" type="number" name="log_days" placeholder="3"></td>
+                                </tr>
 
 
-                                    <div class="swipeout-actions-right"><a :del_id="index" href=""
-                                                                           onclick="deletelist(this)"
-                                                                           class="swipeout-delete">删除</a>
+                                <tr class="text_right">
+                                    <td>tcp_mux：</td>
+                                    <td class="text_left">
+                                        <input v-model="tcp_mux" class="mui-switch mui-switch-anim" type="checkbox"/>
+                                    </td>
+                                </tr>
+
+                                <tr class="text_right">
+                                    <td>协议：</td>
+                                    <td>
+                                        <select v-model="protocol">
+                                            <option value="tcp">tcp</option>
+                                            <option value="kcp">kcp</option>
+                                        </select></td>
+                                </tr>
+                                <tr class="text_right">
+                                    <td>login_fail_exit：</td>
+                                    <td class="text_left">
+                                        <input v-model="login_fail_exit" class="mui-switch mui-switch-anim"
+                                               type="checkbox"/>
+                                </tr>
+
+                            </table>
+                            <hr/>
+
+                        </form>
+                        <center>列表</center>
+                        <ul id="v-for-object">
+
+                            <li v-for="(value,index) in object" class="swipeout">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <table>
+                                            <tr>
+                                                <td width="70">名称:</td>
+                                                <td><input v-model="value.name" type="text" placeholder="名称"/></td>
+                                                <td width="70">协议:</td>
+                                                <td><select v-model="value.type">
+                                                    <option value="tcp">tcp</option>
+                                                    <option value="udp">udp</option>
+                                                    <option value="stcp">stcp</option>
+                                                    <option value="http">http</option>
+                                                    <option value="https">https</option>
+                                                </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td>IP:</td>
+                                                <td><input v-model="value.local_ip" type="text" placeholder="内网地址">
+                                                </td>
+                                                <td>端口1</td>
+                                                <td><input v-model="value.local_port" type="text" placeholder="内网端口">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>端口2</td>
+                                                <td><input v-model="value.remote_port" type="text" placeholder="远程端口">
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>子域名</td>
+                                                <td><input v-model="value.subdomain" type="text"
+                                                           placeholder="subdomain"></td>
+                                                <td>域名</td>
+                                                <td><input v-model="value.custom_domains" type="text"
+                                                           placeholder="custom_domains"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="60">压缩</td>
+                                                <td><input width="150" v-model="value.use_encryption"
+                                                           class="mui-switch mui-switch-anim" type="checkbox"></td>
+                                                <td width="60">加密</td>
+                                                <td><input width="150" v-model="value.use_compression"
+                                                           class="mui-switch mui-switch-anim" type="checkbox"></td>
+                                            </tr>
+                                        </table>
+
+
+                                        <div class="swipeout-actions-right"><a :del_id="index" href=""
+                                                                               onclick="deletelist(this)"
+                                                                               class="swipeout-delete">删除</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
 
-                    </ul>
-                    <button id="savebase" class="button button-fill color-red"
-                            style="width: 100%">保存
-                    </button>
-                    <hr/>
+                        </ul>
+                        <button id="savebase" class="button button-fill color-red"
+                                style="width: 100%">保存
+                        </button>
+                        <hr/>
 
 
+                    </div>
+
+
+
+                    <a href="javascript:" style="display: none;"
+                       class="floating-button addbtn color-pink"><i
+                            class="icon icon-plus"></i></a>
+
+                    <!--绑定-->
+
+
+
+                    <!--绑定-->                </div>
+            </li>
+
+            <li>
+                <input type="radio" name="tabs" id="tab2" />
+                <label for="tab2">自定义配置</label>
+                <div id="tab-content2" class="tab-content">
+                    <p><textarea style="width: 100%; min-height: 300px"></textarea></p>
                 </div>
+            </li>
+        </ul>
             </div>
         </div>
-        <!--绑定-->
+
 
 
     </div>
@@ -205,13 +226,22 @@
 <!-- Path to your app js-->
 <script type="text/javascript" src="js/upscroller.js"></script>
 <script type="text/javascript" src="js/my-app.js"></script>
-<template id="template">
-    <div class="checkbox-wrapper" @click="check">
-        <div :class="{ checkbox: true, checked: checked }"></div>
-        <div class="title"></div>
-    </div>
-</template>
+
+<style type="text/css">
+    span{
+        background:#ccc;
+        padding:2px 5px;
+        line-height:30px;
+        text-align:center;
+        cursor:pointer;
+    }
+    span.active{
+        color:#fff;
+        background:green;
+    }
+</style>
 <script>
+
     var commonConfig = {};
     var configList = [];
     var common;
@@ -445,61 +475,82 @@
                 }
                 //alert(data);
 
-                var ps = response.data.ps;
-
-                var reg = /(\d+)((?=.*frpc -c)(?!.*sh))/g;
-
-                var res = ps.match(reg);
-                //alert(res);
-
-                var pid = 0;
-                if (res!=null&& res.length>0){
-                    pid = res[0];
-                }
-                if (pid>0){
-                    response.data.status = pid;
+                if (response.data.status!="") {
                     response.data.run_status = true;
-                }else{
+                } else {
                     response.data.status = "未运行";
                     response.data.run_status = false;
-
-
                 }
                 frpc_status = new Vue({
                     el: '#frpc_status',
                     data: response.data,
-                    methods:{
-                            runFrpc:function(item){
-                                method = "";
-                                if (item){
-                                    method ="runFrpc";
-                                } else{
-                                    method ="stopFrpc";
-                                }
-                                alert(method);
-                                routerRequest.request({
-                                    path: "/api-third-party/service/datacenter/plugin_control",
-                                    type: "GET",
-                                    data: {
-                                        appId: appId,
-                                        info: JSON.stringify({method: method})
-                                    },
-                                    success: function (data) {
-                                        var response = jQuery.parseJSON(data);
-                                        // if (response.code != 0) {
-                                        //     console.log(data);
-                                        //     alert("错误：" + response.msg);
-                                        //     return;
-                                        // }
-                                        alert(data);
-
-                                    },
-                                    error: function (data) {
-                                        alert("plugin_control:" + data);
-                                    }
-                                });
+                    methods: {
+                        runFrpc: function (item) {
+                            method = "";
+                            if (item) {
+                                method = "runFrpc";
+                            } else {
+                                method = "stopFrpc";
                             }
+                            frpc_status.$data.status = "执行中...";
+                            //alert(method);
+                            routerRequest.request({
+                                path: "/api-third-party/service/datacenter/plugin_control",
+                                type: "GET",
+                                data: {
+                                    appId: appId,
+                                    info: JSON.stringify({method: method})
+                                },
+                                success: function (data) {
+                                    var response = jQuery.parseJSON(data);
+                                    // if (response.code != 0) {
+                                    //     console.log(data);
+                                    //     alert("错误：" + response.msg);
+                                    //     return;
+                                    // }
+                                    //alert(data);
+                                    routerRequest.request({
+                                        path: "/api-third-party/service/datacenter/plugin_control",
+                                        type: "GET",
+                                        data: {
+                                            appId: appId,
+                                            info: JSON.stringify({method: "getStatus"})
+                                        },
+                                        success: function (data) {
+                                            // alert(data)
+                                            var response = jQuery.parseJSON(data);
+                                            if (response.code != 0) {
+                                                console.log(data);
+                                                alert("错误：" + response.msg);
+                                                return;
+                                            }
+                                            //alert(data);
+
+                                            if (response.data.status!="") {
+                                                //alert(true)
+                                                frpc_status.$data.status = response.data.status;
+                                                frpc_status.$data.run_status = true;
+
+                                            } else {
+                                                //alert(false);
+                                                frpc_status.$data.status = "未运行";
+                                                frpc_status.$data.run_status = false;
+                                            }
+                                            //alert(JSON.stringify(frpc_status.$data));
+
+                                        },
+                                        error: function (data) {
+                                            alert("getStatus:" + data);
+                                        }
+                                    });
+
+                                },
+                                error: function (data) {
+                                    alert("plugin_control:" + data);
+                                }
+                            });
                         }
+                    }
                 })
 
             },
@@ -508,8 +559,8 @@
             }
         });
 
-
     }
+
 
     function deletelist(obj) {
         del_id = $(obj).attr("del_id");

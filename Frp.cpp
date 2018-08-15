@@ -26,9 +26,11 @@ using router::DataTransfer;
 
 #define BUF_SIZE 256
 
+Frp::Frp() {
+}
+
 void
 Frp::onLaunched(const std::vector <std::string> &parameters) {
-    runFrpc();
 };
 
 
@@ -76,10 +78,11 @@ Frp::onParameterRecieved(const std::string &params) {
         return JSONObject::success(data);
     } else if (method == "getStatus") {
         std::string version = exec("frp/frpc -v");
-        std::string ps = exec("ps -w|grep frp/frpc");
 
+        std::string status = exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|awk '{print $1}'");
+        exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|awk '{print $1}'>pid");
         data.put("version", version);
-        data.put("ps", ps);
+        data.put("status", status);
 
         return JSONObject::success(data);
 
@@ -92,8 +95,8 @@ Frp::onParameterRecieved(const std::string &params) {
         router::DataTransfer::saveData("run_status", "0");
         std::string run_status;
         router::ErrorCode::Code resCode = router::DataTransfer::getData("run_status", run_status);
-        data.put("rescode",resCode);
-        data.put("run_status",run_status);
+        data.put("rescode", resCode);
+        data.put("run_status", run_status);
         stopFrpc();
         return JSONObject::success(data);
     }
@@ -101,40 +104,6 @@ Frp::onParameterRecieved(const std::string &params) {
     return JSONObject::error(1, "parameter missing");
 
 
-}
-
-void Frp::config() {
-    const char *file = "myconfig.ini";
-    const char *section = "student";
-    const char *name_key = "name";
-    const char *age_key = "age";
-    char name[BUF_SIZE] = {0};
-    int age;
-
-    //write name key value pair
-    if (!write_profile_string(section, name_key, "Tony", file)) {
-        printf("write name pair to ini file fail\n");
-
-    }
-
-    //write age key value pair
-    if (!write_profile_string(section, age_key, "20", file)) {
-        printf("write age pair to ini file fail\n");
-
-    }
-
-    printf("[%s]\n", section);
-    //read string pair, test read string value
-    if (!read_profile_string(section, name_key, name, BUF_SIZE, "", file)) {
-        printf("read ini file fail\n");
-    } else {
-        printf("%s=%s\n", name_key, name);
-    }
-
-    //read age pair, test read int value.
-    //if read fail, return default value
-    age = read_profile_int(section, age_key, 0, file);
-    printf("%s=%d\n", age_key, age);
 }
 
 std::string
@@ -183,6 +152,13 @@ Frp::saveConfig(struct json_object *configData) {
 void Frp::runFrpc() {
     std::string run_status;
     router::DataTransfer::getData("run_status", run_status);
+    FILE *fp = NULL;
+
+    fp = fopen("/frp/autorun.sh", "w+");
+    fputs("#!/bin/ash\n", fp);
+    fputs(".frp/frpc -c .frp/frpc_full.ini &>/dev/null\n", fp);
+    fputs("echo \"on\"\n", fp);
+    fclose(fp);
 
     if (run_status == "1") {
         system("./frp/frpc -c ./frp/frpc_full.ini &>/dev/null");
@@ -190,6 +166,14 @@ void Frp::runFrpc() {
 }
 
 void Frp::stopFrpc() {
+
+    FILE *fp = NULL;
+
+    fp = fopen("/frp/autorun.sh", "w+");
+    fputs("#!/bin/ash\n", fp);
+    fputs("echo \"off\"\n", fp);
+    fclose(fp);
+
     system("killall frp/frpc");
 }
 

@@ -6,8 +6,7 @@
 
 class Frp : public MRApp {
 public:
-    Frp(){};
-
+    Frp();
     virtual ~Frp(){};
 
     void config();

@@ -26,7 +26,7 @@ developer= "MTJO";
 version= "1.0.0";
 
 #请输入插件控制页面url。
-control_url= "http://mtjo.net/frpc/index.html";
+control_url= "https://mtjo.net/frpc/index.html";
 
 #请输入打包目录(如果插件没有可执行文件，可不用填写)。
 zip_path= "./build/";

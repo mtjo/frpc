@@ -8,19 +8,79 @@
 	text-align: right;
 
 }
-select{
-//清除select的边框样式
-border: none;
-//清除select聚焦时候的边框颜色
-outline: none;
-//将select的宽高等于div的宽高
-width: 100%;
-	height: 40px;
-	line-height: 40px;
-//隐藏select的下拉图标
-appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-//通过padding-left的值让文字居中
-padding-left: 60px;
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 20px;
+    text-align: left;
+    font-family: Lato;
+    color: #fff;
+    background: #9b59b6;
+}
+
+.tabs {
+    width: 100%;
+    float: none;
+    list-style: none;
+    position: relative;
+    margin: 80px 0 0 10px;
+    text-align: left;
+}
+.tabs li {
+    float: left;
+    width: 50%;
+    display: block;
+}
+.tabs input[type="radio"] {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+.tabs label {
+    display: block;
+    padding: 14px 21px;
+    border-radius: 2px 2px 0 0;
+    font-size: 20px;
+    font-weight: normal;
+    text-transform: uppercase;
+    background: rgba(168, 71, 173, 0.33);
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.tabs label:hover {
+    background: rgba(136, 33, 6, 0.44);
+}
+.tabs .tab-content {
+    z-index: 2;
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    font-size: 17px;
+    line-height: 25px;
+    padding: 25px;
+    position: absolute;
+    top: 53px;
+    left: 0;
+    background: rgba(97, 46, 118, 0.07);
+}
+.tabs [id^="tab"]:checked + label {
+    top: 0;
+    padding-top: 17px;
+    background: rgba(118, 11, 102, 0.57);
+}
+.tabs [id^="tab"]:checked ~ [id^="tab-content"] {
+    display: block;
 }
