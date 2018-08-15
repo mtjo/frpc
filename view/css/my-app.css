@@ -8,6 +8,10 @@
 	text-align: right;
 
 }
+.navbar{
+    margin: 0;
+    background-color: #353c50;
+}
 
 * {
     margin: 0;
@@ -18,7 +22,6 @@
 }
 
 body {
-    padding: 20px;
     text-align: left;
     font-family: Lato;
     color: #fff;
@@ -30,7 +33,6 @@ body {
     float: none;
     list-style: none;
     position: relative;
-    margin: 80px 0 0 10px;
     text-align: left;
 }
 .tabs li {
@@ -38,6 +40,7 @@ body {
     width: 50%;
     display: block;
 }
+
 .tabs input[type="radio"] {
     position: absolute;
     top: -9999px;
@@ -70,8 +73,17 @@ body {
     height: auto;
     font-size: 17px;
     line-height: 25px;
-    padding: 25px;
     position: absolute;
+    top: 53px;
+    left: 0;
+    background: rgba(97, 46, 118, 0.07);
+}
+#tab-content2{
+    height: auto;
+    font-size: 17px;
+    line-height: 25px;
+    position: absolute;
+    padding: 20px 5px 20px 5px;
     top: 53px;
     left: 0;
     background: rgba(97, 46, 118, 0.07);
@@ -82,5 +94,10 @@ body {
     background: rgba(118, 11, 102, 0.57);
 }
 .tabs [id^="tab"]:checked ~ [id^="tab-content"] {
+    display: block;
+}
+.swipeout li{
+    float: left;
+    width: 100%;
     display: block;
 }

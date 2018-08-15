@@ -1,4 +1,4 @@
 RUN ./Frpc
-RUN ./frpc.sh
+RUN ./frp/autorun.sh
 
 

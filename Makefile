@@ -31,4 +31,5 @@ package:
 	cp -rf frp/* build/frp/
 	cp -rf dev/* build/dev/
 	cp autorun.sh build/frp
+	cp frpc.sh build/frp
 	../plugin_packager_x64

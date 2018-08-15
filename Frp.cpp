@@ -156,12 +156,12 @@ void Frp::runFrpc() {
 
     fp = fopen("/frp/autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
-    fputs(".frp/frpc -c .frp/frpc_full.ini &>/dev/null\n", fp);
+    fputs(".frp/frpc -c ./etc/frpc_config.ini &>/dev/null\n", fp);
     fputs("echo \"on\"\n", fp);
     fclose(fp);
 
     if (run_status == "1") {
-        system("./frp/frpc -c ./frp/frpc_full.ini &>/dev/null");
+        system("./frp/frpc -c ./etc/frpc_config.ini &>/dev/null");
     }
 }
 

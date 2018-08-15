@@ -41,6 +41,9 @@
 
             </div>
         </div>
+        <a href="javascript:" id="savebase"
+           class="floating-button color-red"><i
+                class="icon">保存</i></a>
         <div id="intisync"
              style="width:100%; height: 100%; overflow :auto; background-color: #ffffff;"
              class="pages navbar-through toolbar-through">
@@ -52,12 +55,6 @@
                 <div id="tab-content1" class="tab-content">
 
                     <div class="list-block">
-                        <center id="select_config">
-
-                            <input type="radio" name="config" id="red" value="base"><strong>基本配置</strong>
-                            <input type="radio" name="config" id="blue" value="user"><strong>自定义配置</strong>
-
-                        </center>
                         <hr/>
                         <form id="common">
                             <table align="center" style="width: 90%">
@@ -122,10 +119,10 @@
                             <hr/>
 
                         </form>
-                        <center>列表</center>
+                        <center>代理列表</center>
                         <ul id="v-for-object">
 
-                            <li v-for="(value,index) in object" class="swipeout">
+                            <li v-for="(value,index) in object" class="swipeout" style="width: 100%;">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <table>
@@ -184,32 +181,29 @@
                             </li>
 
                         </ul>
-                        <button id="savebase" class="button button-fill color-red"
-                                style="width: 100%">保存
-                        </button>
+                        <div id="addbtn" class="button button-fill"
+                                 style="width: 100%;"><font size="150">+</font>
+                        </div>
                         <hr/>
 
 
                     </div>
-
-
-
-                    <a href="javascript:" style="display: none;"
-                       class="floating-button addbtn color-pink"><i
-                            class="icon icon-plus"></i></a>
-
-                    <!--绑定-->
-
-
-
-                    <!--绑定-->                </div>
+             </div>
             </li>
 
             <li>
                 <input type="radio" name="tabs" id="tab2" />
                 <label for="tab2">自定义配置</label>
                 <div id="tab-content2" class="tab-content">
-                    <p><textarea style="width: 100%; min-height: 300px"></textarea></p>
+                    <p><textarea style="width: 100%; min-height: 800px;height: auto;" placeholder="# frpc.ini
+[common]
+server_addr = x.x.x.x
+server_port = 7000
+
+[web]
+type = http
+local_port = 80
+custom_domains = www.yourdomain.com"></textarea></p>
                 </div>
             </li>
         </ul>
@@ -248,7 +242,7 @@
     var lists;
     var frpc_status;
 
-    $(".addbtn").click(function () {
+    $("#addbtn").click(function () {
         configList.push({
             type: "http",
             local_ip: "",
@@ -567,13 +561,6 @@
         configList.splice(del_id, 1);
     }
 
-    function show_hide(show) {
-        $("#status").attr("checked", "checked");
-        $("#syncset").show();
-        $("#configlist").show();
-        $(".addbtn").show();
-        $("#intisync").show();
-    }
 
 </script>
 </body>
