@@ -2,22 +2,22 @@
 plugin_id= "2882303761517844809";
 
 #请输入插件名称。
-name= "frpc";
+name= "frp客户端";
 
 #请输入插件介绍。
-introduction= "frp客户端";
+introduction= "frpc客户端小米路由器插件,frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。";
 
 #请输入插件简介。
 summary= "frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。";
 
 #已安装插件图标URL。
-installed_icon= "http://file.market.xiaomi.com/download/AppStore/01fd954dda85b45b43127ebd1b0fc93d881a1524c";
+installed_icon= "http://file.market.xiaomi.com/download/AppStore/06ccd84a1755e459139670c2c8db9fe94ff5ce158";
 
 #插件详情图标URL。
-detail_image= "http://file.market.xiaomi.com/download/AppStore/09a744c83a975969280f105c0e54a45bbf24221e9";
+detail_image= "http://file.market.xiaomi.com/download/AppStore/08ccd4fa155fe2595f9673c2c0eb9ce14674358f8";
 
 #可安装插件图标URL。
-market_icon="http://file.market.xiaomi.com/download/AppStore/0b2f753865c9466e9b00a2c789e5e875cc341f92e";
+market_icon="http://file.market.xiaomi.com/download/AppStore/0cccd84a1755e459139670c2c89b9fe94ff5ce158";
 
 #开发者名称。
 developer= "MTJO";
@@ -49,7 +49,7 @@ access_userdata= "true";
 access_proc = "true";
 
 #是否需要支持"下载"功能，此项为true才能够使用下载相关的sdk
-support_download= "true";
+support_download= "false";
 
 support_vpn_operation= "false";
 

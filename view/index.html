@@ -222,6 +222,18 @@
                 <div class="tabs tab-content" v-show="nowIndex===2">
                     <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                     <p>*保存配置后请重启frpc进程便配置生效</p>
+                    <p>
+                    <br/>
+                    捐助作者：
+                    <form name="atool_alipay_img_form" style="padding-bottom: 0;border:none;" method="post"
+                          action="https://shenghuo.alipay.com/send/payment/fill.htm" target="_blank"
+                          accept-charset="GBK" onsubmit="document.charset='gbk';"><input type="hidden"
+                                                                                         value="mtjo_00@163.com"
+                                                                                         name="optEmail"><input
+                            type="hidden" value="1" name="payAmount"><input type="hidden" name="title"
+                                                                            placeholder="付款说明" value=""><input
+                            type="image" value="支付宝收款" src="http://www.atool.org/res/alipay_1.png" name="pay"></form>
+                    </p>
 
                 </div>
 
@@ -300,11 +312,10 @@
                 });
 
 
-
                 datesend = {
                     method: "saveConfig",
                     data: configData,
-                    type: router_app.$data.nowIndex=="1"?"user":"base"
+                    type: router_app.$data.nowIndex == "1" ? "user" : "base"
                 };
                 alert(JSON.stringify(datesend));
                 configData = encodeURIComponent(JSON.stringify(configData));
@@ -582,7 +593,7 @@
                     alert("错误：" + response.msg);
                     return;
                 }
-                alert(data);
+                //alert(data);
 
                 if (response.data.status != "") {
                     response.data.run_status = true;
