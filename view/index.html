@@ -12,8 +12,11 @@
     <link rel="stylesheet" href="css/framework7.material.colors.min.css">
     <link rel="stylesheet" href="css/upscroller.css">
     <link rel="stylesheet" href="css/my-app.css">
+    <link rel="stylesheet" href="css/base.css">
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script src="js/jquery-3.1.0.min.js"></script>
+    <!--<script src="js/bootstrap-tab.js"></script>-->
     <script src="http://app.miwifi.com/js/router_request.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>frp客户端配置</title>
@@ -25,191 +28,206 @@
 </head>
 
 <body>
-<div class="views">
+<div id="router_app" class="views">
 
     <div class="view view-main">
         <div class="navbar">
             <div class="navbar-inner">
                 <table width="100%">
                     <tr id="frpc_status">
-                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
-                            <font color="red">进程:{{status}}</font></font></td>
-                        <td align="right"><input width="150" v-model="run_status" v-on:click="runFrpc(run_status)"
+                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{frpc_status.version}}&nbsp;&nbsp;
+                            <font color="red">进程:{{frpc_status.status}}</font></font></td>
+                        <td align="right"><input width="150" v-model="frpc_status.run_status"
+                                                 v-on:click="runFrpc(frpc_status.run_status)"
                                                  class="mui-switch mui-switch-anim" type="checkbox"></td>
                     </tr>
                 </table>
 
             </div>
         </div>
+
         <a href="javascript:" id="savebase"
+           v-show="nowIndex!==2"
+           v-on:click="saveConfig()"
            class="floating-button color-red"><i
                 class="icon">保存</i></a>
-        <div id="intisync"
-             style="width:100%; height: 100%; overflow :auto; background-color: #ffffff;"
-             class="pages navbar-through toolbar-through">
+
+        <div class="navbar-fixed pages navbar-through toolbar-through">
             <div class="page-content">
-        <ul class="tabs">
-            <li>
-                <input type="radio" name="tabs" id="tab1" checked />
-                <label for="tab1">基本配置</label>
-                <div id="tab-content1" class="tab-content">
 
-                    <div class="list-block">
-                        <hr/>
-                        <form id="common">
-                            <table align="center" style="width: 90%">
-                                <tr style="width: 30%">
-                                    <td class="text_right">服务器：</td>
-                                    <td><input v-model="server_addr" type="text" placeholder="127.0.0.1"></td>
-                                </tr>
-                                <tr>
-                                    <td class="text_right">端口：</td>
-                                    <td><input v-model="server_port" type="text" placeholder="7000" name="port"></td>
-                                </tr>
-                                <tr>
-                                    <td class="text_right">token：</td>
-                                    <td><input v-model="token" type="text" placeholder="token"></td>
-                                </tr>
-                                <tr>
-                                    <td class="text_right">日志记录：</td>
-                                    <td><input v-model="log_on" width="150"
-                                               class="mui-switch mui-switch-anim" type="checkbox"></td>
-                                </tr>
-                                <!-- trace, debug, info, warn, error -->
-                                <tr class="text_right">
-                                    <td>日志级别：</td>
-                                    <td>
-                                        <select v-model="log_level" name="log_level">
-                                            <option value="trace">trace</option>
-                                            <option value="debug">debug</option>
-                                            <option value="info">info</option>
-                                            <option value="warn">warn</option>
-                                            <option value="error">error</option>
-                                        </select></td>
-                                </tr>
-                                <tr>
-                                    <td class="text_right">日志天数：</td>
-                                    <td><input v-model="log_days" type="number" name="log_days" placeholder="3"></td>
-                                </tr>
+                <ul class="tabs nav nav-tabs" id="myTab">
+                    <li v-for="(item,index) in tabsParam"
+                        @click="toggleTabs(index)"
+                        :class="{active:index==nowIndex}"><a>{{item}}</a></li>
+                </ul>
 
-
-                                <tr class="text_right">
-                                    <td>tcp_mux：</td>
-                                    <td class="text_left">
-                                        <input v-model="tcp_mux" class="mui-switch mui-switch-anim" type="checkbox"/>
-                                    </td>
-                                </tr>
-
-                                <tr class="text_right">
-                                    <td>协议：</td>
-                                    <td>
-                                        <select v-model="protocol">
-                                            <option value="tcp">tcp</option>
-                                            <option value="kcp">kcp</option>
-                                        </select></td>
-                                </tr>
-                                <tr class="text_right">
-                                    <td>login_fail_exit：</td>
-                                    <td class="text_left">
-                                        <input v-model="login_fail_exit" class="mui-switch mui-switch-anim"
-                                               type="checkbox"/>
-                                </tr>
-
-                            </table>
+                <div class="tabs tab-content" v-show="nowIndex===0">
+                    <div class="tab-pane active">
+                        <div class="list-block">
+                            基本配置
                             <hr/>
-
-                        </form>
-                        <center>代理列表</center>
-                        <ul id="v-for-object">
-
-                            <li v-for="(value,index) in object" class="swipeout" style="width: 100%;">
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <table>
-                                            <tr>
-                                                <td width="70">名称:</td>
-                                                <td><input v-model="value.name" type="text" placeholder="名称"/></td>
-                                                <td width="70">协议:</td>
-                                                <td><select v-model="value.type">
-                                                    <option value="tcp">tcp</option>
-                                                    <option value="udp">udp</option>
-                                                    <option value="stcp">stcp</option>
-                                                    <option value="http">http</option>
-                                                    <option value="https">https</option>
-                                                </select></td>
-                                            </tr>
-                                            <tr>
-                                                <td>IP:</td>
-                                                <td><input v-model="value.local_ip" type="text" placeholder="内网地址">
-                                                </td>
-                                                <td>端口1</td>
-                                                <td><input v-model="value.local_port" type="text" placeholder="内网端口">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>端口2</td>
-                                                <td><input v-model="value.remote_port" type="text" placeholder="远程端口">
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>子域名</td>
-                                                <td><input v-model="value.subdomain" type="text"
-                                                           placeholder="subdomain"></td>
-                                                <td>域名</td>
-                                                <td><input v-model="value.custom_domains" type="text"
-                                                           placeholder="custom_domains"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td width="60">压缩</td>
-                                                <td><input width="150" v-model="value.use_encryption"
-                                                           class="mui-switch mui-switch-anim" type="checkbox"></td>
-                                                <td width="60">加密</td>
-                                                <td><input width="150" v-model="value.use_compression"
-                                                           class="mui-switch mui-switch-anim" type="checkbox"></td>
-                                            </tr>
-                                        </table>
+                            <form id="common">
+                                <table align="center" style="width: 90%">
+                                    <tr style="width: 30%">
+                                        <td class="text_right">服务器：</td>
+                                        <td><input v-model="common.server_addr" type="text" placeholder="127.0.0.1">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text_right">端口：</td>
+                                        <td><input v-model="common.server_port" type="text" placeholder="7000"
+                                                   name="port">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text_right">token：</td>
+                                        <td><input v-model="common.token" type="text" placeholder="token"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text_right">日志记录：</td>
+                                        <td><input v-model="common.log_on" width="150"
+                                                   class="mui-switch mui-switch-anim" type="checkbox"></td>
+                                    </tr>
+                                    <!-- trace, debug, info, warn, error -->
+                                    <tr class="text_right">
+                                        <td>日志级别：</td>
+                                        <td>
+                                            <select v-model="common.log_level" name="log_level">
+                                                <option value="trace">trace</option>
+                                                <option value="debug">debug</option>
+                                                <option value="info">info</option>
+                                                <option value="warn">warn</option>
+                                                <option value="error">error</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text_right">日志天数：</td>
+                                        <td><input v-model="common.log_days" type="number" name="log_days"
+                                                   placeholder="3">
+                                        </td>
+                                    </tr>
 
 
-                                        <div class="swipeout-actions-right"><a :del_id="index" href=""
-                                                                               onclick="deletelist(this)"
-                                                                               class="swipeout-delete">删除</a>
+                                    <tr class="text_right">
+                                        <td>tcp_mux：</td>
+                                        <td class="text_left">
+                                            <input v-model="common.tcp_mux" class="mui-switch mui-switch-anim"
+                                                   type="checkbox"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text_right">
+                                        <td>协议：</td>
+                                        <td>
+                                            <select v-model="common.protocol">
+                                                <option value="tcp">tcp</option>
+                                                <option value="kcp">kcp</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr class="text_right">
+                                        <td>login_fail_exit：</td>
+                                        <td class="text_left">
+                                            <input v-model="common.login_fail_exit" class="mui-switch mui-switch-anim"
+                                                   type="checkbox"/>
+                                    </tr>
+
+                                </table>
+                                <br/>
+                                <hr/>
+
+                            </form>
+                            <br/>
+                            代理列表
+                            <ul>
+
+                                <li v-for="(value,index) in configList" class="swipeout" style="width: 100%;">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <table>
+                                                <tr>
+                                                    <td width="70">名称:</td>
+                                                    <td><input v-model="value.name" type="text" placeholder="名称"/>
+                                                    </td>
+                                                    <td width="70">协议:</td>
+                                                    <td><select v-model="value.type">
+                                                        <option value="tcp">tcp</option>
+                                                        <option value="udp">udp</option>
+                                                        <option value="stcp">stcp</option>
+                                                        <option value="http">http</option>
+                                                        <option value="https">https</option>
+                                                    </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>IP:</td>
+                                                    <td><input v-model="value.local_ip" type="text"
+                                                               placeholder="内网地址">
+                                                    </td>
+                                                    <td>端口1</td>
+                                                    <td><input v-model="value.local_port" type="text"
+                                                               placeholder="内网端口">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>端口2</td>
+                                                    <td><input v-model="value.remote_port" type="text"
+                                                               placeholder="远程端口">
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>子域名</td>
+                                                    <td><input v-model="value.subdomain" type="text"
+                                                               placeholder="subdomain"></td>
+                                                    <td>域名</td>
+                                                    <td><input v-model="value.custom_domains" type="text"
+                                                               placeholder="custom_domains"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="60">压缩</td>
+                                                    <td><input width="150" v-model="value.use_encryption"
+                                                               class="mui-switch mui-switch-anim" type="checkbox">
+                                                    </td>
+                                                    <td width="60">加密</td>
+                                                    <td><input width="150" v-model="value.use_compression"
+                                                               class="mui-switch mui-switch-anim" type="checkbox">
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+
+                                            <div class="swipeout-actions-right"><a :del_id="index" href=""
+                                                                                   onclick="deletelist(this)"
+                                                                                   class="swipeout-delete">删除</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
 
-                        </ul>
-                        <div id="addbtn" class="button button-fill"
+                            </ul>
+                            <div v-on:click="addItem()" style="margin-top: 10px" class="button button-fill"
                                  style="width: 100%;"><font size="150">+</font>
+                            </div>
+                            <hr/>
+
+
                         </div>
-                        <hr/>
-
-
                     </div>
-             </div>
-            </li>
-
-            <li>
-                <input type="radio" name="tabs" id="tab2" />
-                <label for="tab2">自定义配置</label>
-                <div id="tab-content2" class="tab-content">
-                    <p><textarea style="width: 100%; min-height: 800px;height: auto;" placeholder="# frpc.ini
-[common]
-server_addr = x.x.x.x
-server_port = 7000
-
-[web]
-type = http
-local_port = 80
-custom_domains = www.yourdomain.com"></textarea></p>
                 </div>
-            </li>
-        </ul>
+                <div class="tabs tab-content" v-show="nowIndex===1">
+                    <textarea id="user_config" v-model="user_config"
+                              style="width: 100%; min-height: 500px;height: auto;"
+                              placeholder="# frpc.ini"></textarea></div>
+
+                <div class="tabs tab-content" v-show="nowIndex===2">
+                    <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
+                    <p>*保存配置后请重启frpc进程便配置生效</p>
+
+                </div>
+
+
             </div>
         </div>
-
 
 
     </div>
@@ -222,16 +240,17 @@ custom_domains = www.yourdomain.com"></textarea></p>
 <script type="text/javascript" src="js/my-app.js"></script>
 
 <style type="text/css">
-    span{
-        background:#ccc;
-        padding:2px 5px;
-        line-height:30px;
-        text-align:center;
-        cursor:pointer;
+    span {
+        background: #ccc;
+        padding: 2px 5px;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
     }
-    span.active{
-        color:#fff;
-        background:green;
+
+    span.active {
+        color: #fff;
+        background: green;
     }
 </style>
 <script>
@@ -241,20 +260,166 @@ custom_domains = www.yourdomain.com"></textarea></p>
     var common;
     var lists;
     var frpc_status;
+    var router_app = new Vue({
+        el: '#router_app',
+        data: {
+            tabsParam: ['基本配置', '自定义配置', "?"],//（这个也可以用对象key，value来实现）
+            nowIndex: 0,//默认激活状态
+            user_config: "",
+            common: {},
+            configList: [],
+            frpc_status: {version: "----", status: "----", run_status: false}
+        },
+        methods: {
+            toggleTabs: function (index) {
+                this.nowIndex = index;
+            },
+            addItem: function () {
+                router_app.$data.configList.push({
+                    type: "http",
+                    local_ip: "",
+                    local_port: "",
+                    remote_port: "",
+                    use_encryption: false,
+                    use_compression: false,
+                    use_compression: false,
+                    subdomain: "",
+                    custom_domains: ""
+                })
+            },
+            saveConfig: function () {
+                configData = {common: router_app.$data.common};
+                $.each(router_app.$data.configList, function (index, item) {
+                    key_name = item.name;
+                    configData[key_name] = {}
+                    $.each(item, function (key, val) {
+                        if (key != "name") {
+                            configData[key_name][key] = val;
+                        }
+                    });
+                });
 
-    $("#addbtn").click(function () {
-        configList.push({
-            type: "http",
-            local_ip: "",
-            local_port: "",
-            remote_port: "",
-            use_encryption: false,
-            use_compression: false,
-            use_compression: false,
-            subdomain: "",
-            custom_domains: ""
-        })
 
+
+                datesend = {
+                    method: "saveConfig",
+                    data: configData,
+                    type: router_app.$data.nowIndex=="1"?"user":"base"
+                };
+                alert(JSON.stringify(datesend));
+                configData = encodeURIComponent(JSON.stringify(configData));
+
+                //详细列表设置
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/set_config",
+                    type: "GET",
+                    data: {
+                        appId: appId,
+                        key: "frpc_config",
+                        value: configData
+                    },
+                    success: function (data) {
+                        var response = jQuery.parseJSON(data);
+                        if (response.code != 0) {
+                            console.log(data);
+                            alert("错误：" + response.msg);
+                            return;
+                        }
+                    },
+                    error: function (data) {
+                        console.log("set_config:", data);
+                        alert("网络失败");
+                    }
+                });
+
+
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_control",
+                    type: "GET",
+                    data: {
+                        appId: appId,
+                        info: JSON.stringify(datesend)
+                    },
+                    success: function (data) {
+                        var response = jQuery.parseJSON(data);
+                        if (response.code != 0) {
+                            console.log(data);
+                            alert("错误：" + response.msg);
+                            return;
+                        }
+                        alert("配置保存成功，请重启frpc进程")
+
+                    },
+                    error: function (data) {
+                        alert("saveconfig:" + data);
+                    }
+                });
+
+                return;
+            },
+            runFrpc: function (item) {
+                method = "";
+                if (item) {
+                    method = "runFrpc";
+                } else {
+                    method = "stopFrpc";
+                }
+                router_app.$data.frpc_status.status = "执行中...";
+                //alert(method);
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_control",
+                    type: "GET",
+                    data: {
+                        appId: appId,
+                        info: JSON.stringify({method: method})
+                    },
+                    success: function (data) {
+                        var response = jQuery.parseJSON(data);
+                        // if (response.code != 0) {
+                        //     console.log(data);
+                        //     alert("错误：" + response.msg);
+                        //     return;
+                        // }
+                        //alert(data);
+                        routerRequest.request({
+                            path: "/api-third-party/service/datacenter/plugin_control",
+                            type: "GET",
+                            data: {
+                                appId: appId,
+                                info: JSON.stringify({method: "getStatus"})
+                            },
+                            success: function (data) {
+                                // alert(data)
+                                var response = jQuery.parseJSON(data);
+                                if (response.code != 0) {
+                                    console.log(data);
+                                    alert("错误：" + response.msg);
+                                    return;
+                                }
+                                //alert(data);
+
+                                if (response.data.status != "") {
+                                    response.data.run_status = true;
+                                } else {
+                                    response.data.status = "未运行";
+                                    response.data.run_status = false;
+                                }
+                                router_app.$data.frpc_status = response.data;
+                                //alert(JSON.stringify(frpc_status.$data));
+
+                            },
+                            error: function (data) {
+                                alert("getStatus:" + data);
+                            }
+                        });
+
+                    },
+                    error: function (data) {
+                        alert("plugin_control:" + data);
+                    }
+                });
+            }
+        }
     });
 
     var status = 0;
@@ -266,91 +431,28 @@ custom_domains = www.yourdomain.com"></textarea></p>
                 routerRequest.authorize(window.location.href, appId);
             }
         });
-
-        $("#savebase").click(function () {
-
-            configData = {common: common.$data};
-            $.each(lists.$data.object, function (index, item) {
-                key_name = item.name;
-                configData[key_name] = {}
-                $.each(item, function (key, val) {
-                    if (key != "name") {
-                        configData[key_name][key] = val;
-                    }
-                });
-            });
-
-            datesend = {
-                method: "saveConfig",
-                data: configData
-            };
-            //alert(JSON.stringify(datesend));
-            configData = encodeURIComponent(JSON.stringify(configData));
-
-            //详细列表设置
-            routerRequest.request({
-                path: "/api-third-party/service/datacenter/set_config",
-                type: "GET",
-                data: {
-                    appId: appId,
-                    key: "frpc_config",
-                    value: configData
-                },
-                success: function (data) {
-                    var response = jQuery.parseJSON(data);
-                    if (response.code != 0) {
-                        console.log(data);
-                        alert("错误：" + response.msg);
-                        return;
-                    }
-                },
-                error: function (data) {
-                    console.log("set_config:", data);
-                    alert("网络失败");
-                }
-            });
-
-
-            routerRequest.request({
-                path: "/api-third-party/service/datacenter/plugin_control",
-                type: "GET",
-                data: {
-                    appId: appId,
-                    info: JSON.stringify(datesend)
-                },
-                success: function (data) {
-                    var response = jQuery.parseJSON(data);
-                    if (response.code != 0) {
-                        console.log(data);
-                        alert("错误：" + response.msg);
-                        return;
-                    }
-                    alert("配置保存成功，请重启frpc进程")
-
-                },
-                error: function (data) {
-                    alert("saveconfig:" + data);
-                }
-            });
-
-            return;
-        });
-
         loadconfig();
-        show_hide(status);
 
     });
 
-
     function loadconfig() {
-        //启用插件
+        //类型
         routerRequest.request({
-            path: "/api-third-party/service/datacenter/plugin_enable",
+            path: "/api-third-party/service/datacenter/config_info",
             type: "GET",
             data: {
-                appId: appId
+                appId: appId,
+                key: "configType"
             },
-            success: function (res) {
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    alert("错误：" + response.msg);
+                    return;
+                }
+                nowIndex = response.value == "base" ? 0 : 1;
+                router_app.$data.tabs.nowIndex = nowIndex;
             },
             error: function (data) {
             }
@@ -430,23 +532,36 @@ custom_domains = www.yourdomain.com"></textarea></p>
                     //alert(JSON.stringify(commonConfig));
                     //alert(JSON.stringify(configList));
                 }
-                common = new Vue({
-                    el: '#common',
-                    data: commonConfig
-                })
-
-                lists = new Vue({
-                    el: '#v-for-object',
-                    data: {
-                        object: configList
-                    }
-
-                })
+                router_app.$data.common = commonConfig;
+                router_app.$data.configList = configList;
 
             },
             error: function (data) {
                 console.log("error:", data);
                 alert("网络失败");
+            }
+        });
+
+        //自定义配置
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/plugin_control",
+            type: "GET",
+            data: {
+                appId: appId,
+                info: JSON.stringify({method: "getConfig", type: "user"})
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    alert("错误：" + response.msg);
+                    return;
+                }
+                //alert(response.data);
+                router_app.$data.user_config = response.data;
+
+            },
+            error: function (data) {
             }
         });
 
@@ -467,85 +582,16 @@ custom_domains = www.yourdomain.com"></textarea></p>
                     alert("错误：" + response.msg);
                     return;
                 }
-                //alert(data);
+                alert(data);
 
-                if (response.data.status!="") {
+                if (response.data.status != "") {
                     response.data.run_status = true;
                 } else {
                     response.data.status = "未运行";
                     response.data.run_status = false;
                 }
-                frpc_status = new Vue({
-                    el: '#frpc_status',
-                    data: response.data,
-                    methods: {
-                        runFrpc: function (item) {
-                            method = "";
-                            if (item) {
-                                method = "runFrpc";
-                            } else {
-                                method = "stopFrpc";
-                            }
-                            frpc_status.$data.status = "执行中...";
-                            //alert(method);
-                            routerRequest.request({
-                                path: "/api-third-party/service/datacenter/plugin_control",
-                                type: "GET",
-                                data: {
-                                    appId: appId,
-                                    info: JSON.stringify({method: method})
-                                },
-                                success: function (data) {
-                                    var response = jQuery.parseJSON(data);
-                                    // if (response.code != 0) {
-                                    //     console.log(data);
-                                    //     alert("错误：" + response.msg);
-                                    //     return;
-                                    // }
-                                    //alert(data);
-                                    routerRequest.request({
-                                        path: "/api-third-party/service/datacenter/plugin_control",
-                                        type: "GET",
-                                        data: {
-                                            appId: appId,
-                                            info: JSON.stringify({method: "getStatus"})
-                                        },
-                                        success: function (data) {
-                                            // alert(data)
-                                            var response = jQuery.parseJSON(data);
-                                            if (response.code != 0) {
-                                                console.log(data);
-                                                alert("错误：" + response.msg);
-                                                return;
-                                            }
-                                            //alert(data);
 
-                                            if (response.data.status!="") {
-                                                //alert(true)
-                                                frpc_status.$data.status = response.data.status;
-                                                frpc_status.$data.run_status = true;
-
-                                            } else {
-                                                //alert(false);
-                                                frpc_status.$data.status = "未运行";
-                                                frpc_status.$data.run_status = false;
-                                            }
-                                            //alert(JSON.stringify(frpc_status.$data));
-
-                                        },
-                                        error: function (data) {
-                                            alert("getStatus:" + data);
-                                        }
-                                    });
-
-                                },
-                                error: function (data) {
-                                    alert("plugin_control:" + data);
-                                }
-                            });
-                        }
-                    }
-                })
+                router_app.$data.frpc_status = response.data;
 
             },
             error: function (data) {

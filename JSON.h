@@ -22,6 +22,10 @@ public:
     JSONObject result;
     return result.put("code", 0).put("msg", "").put("data", data).toString();
   }
+  static std::string success(const std::string string) {
+    JSONObject result;
+    return result.put("code", 0).put("msg", "").put("data", string).toString();
+  }
 
   static std::string error(int code, const std::string& msg) {
     JSONObject data;

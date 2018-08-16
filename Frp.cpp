@@ -60,22 +60,38 @@ Frp::onParameterRecieved(const std::string &params) {
     if (method == "") {
         return JSONObject::error(999, "method can not be null");
     } else if (method == "saveConfig") {
-        data.put("method", method);
-        std::string jsondata = getData(params);
-        //data.put("data", jsondata);
+        std::string type = getDataByKey(params,"type");
+        router::DataTransfer::saveData("configType", type);
+        if (type == "user") {
+            std::string jsondata = getData(params);
 
+            FILE *fp = NULL;
+            fp = fopen("/etc/frpc_user_config.ini", "w+");
+            fputs(jsondata.data(), fp);
+            fclose(fp);
+            return JSONObject::success();
 
-        const char *ch = params.data();
-        struct json_object *jsonObject = NULL;
-        jsonObject = json_tokener_parse(ch);
-
-        if ((long) jsonObject > 0) {/**Json格式无错误**/
-            jsonObject = json_object_object_get(jsonObject, "data");
-            saveConfig(jsonObject);
-
+        } else if(type == "base") {
+            const char *ch = params.data();
+            struct json_object *jsonObject = NULL;
+            jsonObject = json_tokener_parse(ch);
+            if ((long) jsonObject > 0) {/**Json格式无错误**/
+                jsonObject = json_object_object_get(jsonObject, "data");
+                saveConfig(jsonObject);
+            }
+            json_object_put(jsonObject);
+            return JSONObject::success();
         }
-        json_object_put(jsonObject);
-        return JSONObject::success(data);
+        return JSONObject::error(1, "save's type missing");
+    } else if (method == "getConfig") {
+        std::string type = getDataByKey(params,"type");
+        string config = "";
+        if (type == "base") {
+            config = exec("cat /etc/frpc_config.ini");
+        } else if (type == "user") {
+            config = exec("cat /etc/frpc_user_config.ini");
+        }
+        return JSONObject::success(config);
     } else if (method == "getStatus") {
         std::string version = exec("frp/frpc -v");
 
@@ -126,13 +142,27 @@ Frp::getData(const std::string &params) {
     const char *ch = params.data();
     struct json_object *jsonObject = NULL;
     jsonObject = json_tokener_parse(ch);
-    std::string method = "";
+    std::string data = "";
     if ((long) jsonObject > 0) {/**Json格式无错误**/
         jsonObject = json_object_object_get(jsonObject, "data");
-        method = json_object_get_string(jsonObject);
+        data = json_object_get_string(jsonObject);
     }
     json_object_put(jsonObject);
-    return method;
+    return data;
+}
+
+std::string
+Frp::getDataByKey(const std::string &params,std::string key) {
+    const char *ch = params.data();
+    struct json_object *jsonObject = NULL;
+    jsonObject = json_tokener_parse(ch);
+    std::string data = "";
+    if ((long) jsonObject > 0) {/**Json格式无错误**/
+        jsonObject = json_object_object_get(jsonObject, key.data());
+        data = json_object_get_string(jsonObject);
+    }
+    json_object_put(jsonObject);
+    return data;
 }
 
 
@@ -152,16 +182,22 @@ Frp::saveConfig(struct json_object *configData) {
 void Frp::runFrpc() {
     std::string run_status;
     router::DataTransfer::getData("run_status", run_status);
-    FILE *fp = NULL;
+    std::string configType;
+    router::DataTransfer::getData("configType", configType);
 
+    FILE *fp = NULL;
     fp = fopen("/frp/autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
-    fputs(".frp/frpc -c ./etc/frpc_config.ini &>/dev/null\n", fp);
+    if(configType=="base"){
+        fputs("/frp/frpc -c /etc/frpc_config.ini &>/dev/null\n", fp);
+    }else{
+        fputs("/frp/frpc -c /etc/frpc_user_config.ini &>/dev/null\n", fp);
+    }
     fputs("echo \"on\"\n", fp);
     fclose(fp);
 
     if (run_status == "1") {
-        system("./frp/frpc -c ./etc/frpc_config.ini &>/dev/null");
+        system("./frp/autorun.sh");
     }
 }
 
@@ -172,6 +208,8 @@ void Frp::stopFrpc() {
     fp = fopen("/frp/autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
     fputs("echo \"off\"\n", fp);
+    fputs("exit\n", fp);
+
     fclose(fp);
 
     system("killall frp/frpc");
