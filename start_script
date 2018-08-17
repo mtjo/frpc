@@ -1,4 +1,3 @@
 RUN ./Frpc
-RUN ./frp/autorun.sh
 
 

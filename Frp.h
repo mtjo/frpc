@@ -12,6 +12,7 @@ public:
     void config();
     void runFrpc();
     void stopFrpc();
+
     void saveConfig(struct json_object *configData);
     std::string getMethod(const std::string &params);
     std::string getData(const std::string &params);

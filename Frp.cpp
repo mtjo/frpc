@@ -6,10 +6,11 @@
 #include <unistd.h>
 #include <string.h>
 #include <string>
+#include <thread>
 #include <regex>
 
 using std::string;
-
+using std::thread;
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -20,6 +21,7 @@ using std::string;
 #include "JSON.h"
 #include "inifile.h"
 #include "DataTransfer.h"
+//#include "boost/thread.hpp"
 
 using router::DataTransfer;
 
@@ -28,9 +30,14 @@ using router::DataTransfer;
 
 Frp::Frp() {
 }
-
+void startFrpc(){
+    system("./frp/autorun.sh");
+}
 void
 Frp::onLaunched(const std::vector <std::string> &parameters) {
+    std::thread subthread(startFrpc);
+    subthread.detach();
+
 };
 
 
@@ -110,10 +117,13 @@ Frp::onParameterRecieved(const std::string &params) {
     } else if (method == "stopFrpc") {
         router::DataTransfer::saveData("run_status", "0");
         std::string run_status;
-        router::ErrorCode::Code resCode = router::DataTransfer::getData("run_status", run_status);
-        data.put("rescode", resCode);
+        router::DataTransfer::getData("run_status", run_status);
         data.put("run_status", run_status);
         stopFrpc();
+        return JSONObject::success(data);
+    }else if (method == "restartFrpc") {
+        stopFrpc();
+        runFrpc();
         return JSONObject::success(data);
     }
 
@@ -197,11 +207,15 @@ void Frp::runFrpc() {
     fclose(fp);
 
     if (run_status == "1") {
-        system("./frp/autorun.sh");
+        //system("./frp/autorun.sh");
+        std::thread subthread(startFrpc);
+        subthread.detach();
     }
 }
 
 void Frp::stopFrpc() {
+    system("killall frp/frpc");
+    system("killall frp/autorun.sh");
 
     FILE *fp = NULL;
 
@@ -212,7 +226,8 @@ void Frp::stopFrpc() {
 
     fclose(fp);
 
-    system("killall frp/frpc");
+
 }
+
 
 Frp frp;

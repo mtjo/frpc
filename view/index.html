@@ -15,10 +15,15 @@
     <link rel="stylesheet" href="css/base.css">
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script src="js/jquery-3.1.0.min.js"></script>
-    <!--<script src="js/bootstrap-tab.js"></script>-->
+
     <script src="http://app.miwifi.com/js/router_request.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+
     <title>frp客户端配置</title>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -29,16 +34,15 @@
 
 <body>
 <div id="router_app" class="views">
-
     <div class="view view-main">
         <div class="navbar">
             <div class="navbar-inner">
                 <table width="100%">
-                    <tr id="frpc_status">
-                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{frpc_status.version}}&nbsp;&nbsp;
-                            <font color="red">进程:{{frpc_status.status}}</font></font></td>
-                        <td align="right"><input width="150" v-model="frpc_status.run_status"
-                                                 v-on:click="runFrpc(frpc_status.run_status)"
+                    <tr>
+                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
+                            <font color="red">进程:{{status}}</font></font></td>
+                        <td align="right"><input width="150" v-model="run_status"
+                                                 @click="runFrpc(run_status)"
                                                  class="mui-switch mui-switch-anim" type="checkbox"></td>
                     </tr>
                 </table>
@@ -46,9 +50,9 @@
             </div>
         </div>
 
-        <a href="javascript:" id="savebase"
+        <a href="javascript:"
            v-show="nowIndex!==2"
-           v-on:click="saveConfig()"
+           @click="saveConfig()"
            class="floating-button color-red"><i
                 class="icon">保存</i></a>
 
@@ -85,8 +89,8 @@
                                     </tr>
                                     <tr>
                                         <td class="text_right">日志记录：</td>
-                                        <td><input v-model="common.log_on" width="150"
-                                                   class="mui-switch mui-switch-anim" type="checkbox"></td>
+                                        <td><input v-model="common.log_file" placeholder="./frpc.log"
+                                                   type="text"></td>
                                     </tr>
                                     <!-- trace, debug, info, warn, error -->
                                     <tr class="text_right">
@@ -138,17 +142,22 @@
                             </form>
                             <br/>
                             代理列表
-                            <ul>
 
-                                <li v-for="(value,index) in configList" class="swipeout" style="width: 100%;">
-                                    <div class="item-content">
-                                        <div class="item-inner">
+
+                            <div style="width: 100%; overflow: hidden">
+
+                                <ul>
+                                    <li class=" item-content list-item " v-for="(value,index) in configList "
+                                        data-type="0">
+
+                                        <div class="item-inner" @touchstart.capture="touchStart"
+                                             @touchend.capture="touchEnd" @click="skip">
                                             <table>
                                                 <tr>
-                                                    <td width="70">名称:</td>
+                                                    <td>名称:</td>
                                                     <td><input v-model="value.name" type="text" placeholder="名称"/>
                                                     </td>
-                                                    <td width="70">协议:</td>
+                                                    <td>协议:</td>
                                                     <td><select v-model="value.type">
                                                         <option value="tcp">tcp</option>
                                                         <option value="udp">udp</option>
@@ -195,17 +204,17 @@
                                                 </tr>
                                             </table>
 
-
-                                            <div class="swipeout-actions-right"><a :del_id="index" href=""
-                                                                                   onclick="deletelist(this)"
-                                                                                   class="swipeout-delete">删除</a>
-                                            </div>
                                         </div>
-                                    </div>
-                                </li>
 
-                            </ul>
-                            <div v-on:click="addItem()" style="margin-top: 10px" class="button button-fill"
+                                        <div class="swipeout-actions-right" @click="deleteItem(index)"
+                                             :data-index="index">
+                                            <a class="swipeout-delete">删除</a></div>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <div @click.stop="addItem()" style="margin-top: 10px" class="button button-fill"
                                  style="width: 100%;"><font size="150">+</font>
                             </div>
                             <hr/>
@@ -220,58 +229,51 @@
                               placeholder="# frpc.ini"></textarea></div>
 
                 <div class="tabs tab-content" v-show="nowIndex===2">
-                    <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
-                    <p>*保存配置后请重启frpc进程便配置生效</p>
-                    <p>
-                    <br/>
-                    捐助作者：
-                    <form name="atool_alipay_img_form" style="padding-bottom: 0;border:none;" method="post"
-                          action="https://shenghuo.alipay.com/send/payment/fill.htm" target="_blank"
-                          accept-charset="GBK" onsubmit="document.charset='gbk';"><input type="hidden"
-                                                                                         value="mtjo_00@163.com"
-                                                                                         name="optEmail"><input
-                            type="hidden" value="1" name="payAmount"><input type="hidden" name="title"
-                                                                            placeholder="付款说明" value=""><input
-                            type="image" value="支付宝收款" src="http://www.atool.org/res/alipay_1.png" name="pay"></form>
-                    </p>
+                    <div class="help">
+                        <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
+                        <p>*基本配置和自定义配置是分离的，相互不会影响</p>
+                        <font color="red">*点击保存，会保存当前页面配置，且frpc读取的是最新保存的配置</font>
+                        <p>*保存配置后请重启frpc进程以便配置生效</p>
+                        <p>*列表左滑可以删除</p>
+                        <p>
 
+                            <br/>
+
+                        <hr/>
+                        捐助作者：
+                        <form name="atool_alipay_img_form" style="padding-bottom: 0;border:none;" method="post"
+                              action="https://shenghuo.alipay.com/send/payment/fill.htm" target="_blank"
+                              accept-charset="GBK" onsubmit="document.charset='gbk';"><input type="hidden"
+                                                                                             value="mtjo_00@163.com"
+                                                                                             name="optEmail"><input
+                                type="hidden" value="1" name="payAmount"><input type="hidden" name="title"
+                                                                                placeholder="付款说明" value=""><input
+                                type="image" value="支付宝收款" src="http://www.atool.org/res/alipay_1.png" name="pay">
+                        </form>
+                        </p>
+                        <br/>
+                        支付宝打赏：
+                        <center><img width="100%" src="alipay.JPG"></center>
+
+                        <br/>
+                        微信打赏：
+                        <center><img width="100%" src="wechar.JPG"></center>
+                    </div>
                 </div>
 
 
             </div>
         </div>
 
-
     </div>
 </div>
+<div class="toast-wrap">
+    <span class="toast-msg"></span>
+</div>
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/framework7.min.js"></script>
-<!-- Path to your app js-->
-<script type="text/javascript" src="js/upscroller.js"></script>
-<script type="text/javascript" src="js/my-app.js"></script>
-
-<style type="text/css">
-    span {
-        background: #ccc;
-        padding: 2px 5px;
-        line-height: 30px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    span.active {
-        color: #fff;
-        background: green;
-    }
-</style>
 <script>
-
     var commonConfig = {};
     var configList = [];
-    var common;
-    var lists;
-    var frpc_status;
     var router_app = new Vue({
         el: '#router_app',
         data: {
@@ -280,7 +282,11 @@
             user_config: "",
             common: {},
             configList: [],
-            frpc_status: {version: "----", status: "----", run_status: false}
+            version: "----",
+            status: "----",
+            run_status: false,
+            startX: 0,
+            endX: 0,
         },
         methods: {
             toggleTabs: function (index) {
@@ -300,6 +306,9 @@
                 })
             },
             saveConfig: function () {
+                if (router_app.$data.run_status ){
+                    router_app.$data.status = "重启中..."
+                }
                 configData = {common: router_app.$data.common};
                 $.each(router_app.$data.configList, function (index, item) {
                     key_name = item.name;
@@ -314,10 +323,10 @@
 
                 datesend = {
                     method: "saveConfig",
-                    data: configData,
+                    data: router_app.$data.nowIndex == "1" ? router_app.$data.user_config : configData,
                     type: router_app.$data.nowIndex == "1" ? "user" : "base"
                 };
-                alert(JSON.stringify(datesend));
+                //alert(JSON.stringify(datesend));
                 configData = encodeURIComponent(JSON.stringify(configData));
 
                 //详细列表设置
@@ -343,7 +352,6 @@
                     }
                 });
 
-
                 routerRequest.request({
                     path: "/api-third-party/service/datacenter/plugin_control",
                     type: "GET",
@@ -358,7 +366,24 @@
                             alert("错误：" + response.msg);
                             return;
                         }
-                        alert("配置保存成功，请重启frpc进程")
+                        //alert("配置保存成功");
+                        toast('配置保存成功!')
+                        routerRequest.request({
+                            path: "/api-third-party/service/datacenter/plugin_control",
+                            type: "GET",
+                            data: {
+                                appId: appId,
+                                info: JSON.stringify({method:"restartFrpc"})
+                            },
+                            success:function (res) {
+
+                            },
+                            error:function (res) {
+
+                            }
+                        });
+
+                        loadconfig();
 
                     },
                     error: function (data) {
@@ -375,7 +400,7 @@
                 } else {
                     method = "stopFrpc";
                 }
-                router_app.$data.frpc_status.status = "执行中...";
+                router_app.$data.status = "执行中...";
                 //alert(method);
                 routerRequest.request({
                     path: "/api-third-party/service/datacenter/plugin_control",
@@ -410,13 +435,14 @@
                                 //alert(data);
 
                                 if (response.data.status != "") {
-                                    response.data.run_status = true;
+                                    router_app.$data.run_status = true;
+                                    router_app.$data.status = response.data.status;
+
                                 } else {
-                                    response.data.status = "未运行";
-                                    response.data.run_status = false;
+                                    router_app.$data.run_status = false;
+                                    router_app.$data.status = "未运行";
                                 }
-                                router_app.$data.frpc_status = response.data;
-                                //alert(JSON.stringify(frpc_status.$data));
+                                router_app.$data.version = response.data.version;
 
                             },
                             error: function (data) {
@@ -429,7 +455,64 @@
                         alert("plugin_control:" + data);
                     }
                 });
+            },//跳转
+            skip() {
+                if (this.checkSlide()) {
+                    this.restSlide();
+                } else {
+                    alert('You click the slide!')
+                }
+            },
+            //滑动开始
+            touchStart(e) {
+                // 记录初始位置
+                this.startX = e.touches[0].clientX;
+            },
+            //滑动结束
+            touchEnd(e) {
+                // 当前滑动的父级元素
+                let parentElement = e.currentTarget.parentElement;
+                // 记录结束位置
+                this.endX = e.changedTouches[0].clientX;
+                // 左滑
+                if (parentElement.dataset.type == 0 && this.startX - this.endX > 30) {
+                    this.restSlide();
+                    parentElement.dataset.type = 1;
+                }
+                // 右滑
+                if (parentElement.dataset.type == 1 && this.startX - this.endX < -30) {
+                    this.restSlide();
+                    parentElement.dataset.type = 0;
+                }
+                this.startX = 0;
+                this.endX = 0;
+            },
+            //判断当前是否有滑块处于滑动状态
+            checkSlide() {
+                let listItems = document.querySelectorAll('.list-item');
+                for (let i = 0; i < listItems.length; i++) {
+                    if (listItems[i].dataset.type == 1) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            //复位滑动状态
+            restSlide() {
+                let listItems = document.querySelectorAll('.list-item');
+                // 复位
+                for (let i = 0; i < listItems.length; i++) {
+                    listItems[i].dataset.type = 0;
+                }
+            },
+            //删除
+            deleteItem(index) {
+                // 复位
+                this.restSlide();
+                // 删除
+                router_app.$data.configList.splice(index, 1);
             }
+
         }
     });
 
@@ -462,8 +545,9 @@
                     alert("错误：" + response.msg);
                     return;
                 }
+                //alert(data)
                 nowIndex = response.value == "base" ? 0 : 1;
-                router_app.$data.tabs.nowIndex = nowIndex;
+                router_app.$data.nowIndex = nowIndex;
             },
             error: function (data) {
             }
@@ -493,9 +577,8 @@
                         server_addr: "",
                         server_port: "",
                         token: "",
-                        log_on: true,
                         log_file: "./frpc.log",
-                        log_days: "",
+                        log_days: 3,
                         log_level: "error",
                         tcp_mux: true,
                         protocol: "tcp",
@@ -506,25 +589,14 @@
                     configList = [{
                         name: "router",
                         type: "tcp",
-                        local_ip: "frp.mtjo.net",
+                        local_ip: "127.0.0.1",
                         local_port: "80",
                         use_encryption: true,
                         use_compression: false,
                         use_compression: false,
                         subdomain: "mtjo",
                         custom_domains: "router.mtjo.net"
-                    },
-                        {
-                            name: "ssh",
-                            type: "https",
-                            local_ip: "127.0.0.1",
-                            local_port: "2222",
-                            use_encryption: true,
-                            use_compression: false,
-                            use_compression: false,
-                            subdomain: "",
-                            custom_domains: ""
-                        }];
+                    }];
 
                 } else {
                     jsonobj = jQuery.parseJSON(frpc_config);
@@ -596,13 +668,14 @@
                 //alert(data);
 
                 if (response.data.status != "") {
-                    response.data.run_status = true;
+                    router_app.$data.run_status = true;
+                    router_app.$data.status = response.data.status;
                 } else {
-                    response.data.status = "未运行";
-                    response.data.run_status = false;
+                    router_app.$data.status = "未运行";
+                    router_app.$data.run_status = false;
                 }
+                router_app.$data.version = response.data.version;
 
-                router_app.$data.frpc_status = response.data;
 
             },
             error: function (data) {
@@ -611,15 +684,18 @@
         });
 
     }
-
-
-    function deletelist(obj) {
-        del_id = $(obj).attr("del_id");
-        configList.splice(del_id, 1);
+    function toast(msg){
+        setTimeout(function(){
+            document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML=msg;
+            var toastTag = document.getElementsByClassName('toast-wrap')[0];
+            toastTag.className = toastTag.className.replace('toastAnimate','');
+            setTimeout(function(){
+                toastTag.className = toastTag.className + ' toastAnimate';
+            }, 100);
+        },500);
     }
-
-
 </script>
+
 </body>
 </html>
 
