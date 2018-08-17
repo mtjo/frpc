@@ -306,9 +306,7 @@
                 })
             },
             saveConfig: function () {
-                if (router_app.$data.run_status ){
-                    router_app.$data.status = "重启中..."
-                }
+
                 configData = {common: router_app.$data.common};
                 $.each(router_app.$data.configList, function (index, item) {
                     key_name = item.name;
@@ -342,7 +340,7 @@
                         var response = jQuery.parseJSON(data);
                         if (response.code != 0) {
                             console.log(data);
-                            alert("错误：" + response.msg);
+                            alert("保存配置错误：" + response.msg);
                             return;
                         }
                     },
@@ -363,25 +361,29 @@
                         var response = jQuery.parseJSON(data);
                         if (response.code != 0) {
                             console.log(data);
-                            alert("错误：" + response.msg);
+                            alert("Frpc配置保存错误：" + response.msg);
                             return;
                         }
                         //alert("配置保存成功");
                         toast('配置保存成功!')
-                        routerRequest.request({
-                            path: "/api-third-party/service/datacenter/plugin_control",
-                            type: "GET",
-                            data: {
-                                appId: appId,
-                                info: JSON.stringify({method:"restartFrpc"})
-                            },
-                            success:function (res) {
+                        if (router_app.$data.run_status ){
+                            router_app.$data.status = "重启中..."
+                            routerRequest.request({
+                                path: "/api-third-party/service/datacenter/plugin_control",
+                                type: "GET",
+                                data: {
+                                    appId: appId,
+                                    info: JSON.stringify({method:"restartFrpc"})
+                                },
+                                success:function (res) {
+                                    toast('Frpc进程重启成功!')
+                                },
+                                error:function (res) {
 
-                            },
-                            error:function (res) {
+                                }
+                            });
+                        }
 
-                            }
-                        });
 
                         loadconfig();
 
@@ -429,7 +431,7 @@
                                 var response = jQuery.parseJSON(data);
                                 if (response.code != 0) {
                                     console.log(data);
-                                    alert("错误：" + response.msg);
+                                    alert("getStatus：" + response.msg);
                                     return;
                                 }
                                 //alert(data);
@@ -542,7 +544,7 @@
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    alert("错误：" + response.msg);
+                    toast("configType错误：" + response.msg);
                     return;
                 }
                 //alert(data)
@@ -565,7 +567,7 @@
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    alert("错误：" + response.msg);
+                    toast("frpc_config错误：" + response.msg);
                     return;
                 }
                 //alert(data);
@@ -637,7 +639,7 @@
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    alert("错误：" + response.msg);
+                    toast("method: \"getConfig\"\n错误：" + response.msg);
                     return;
                 }
                 //alert(response.data);
@@ -662,7 +664,7 @@
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    alert("错误：" + response.msg);
+                    toast("method: \"getStatus\" \n错误：" + response.msg);
                     return;
                 }
                 //alert(data);

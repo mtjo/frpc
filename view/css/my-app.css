@@ -330,12 +330,12 @@ body {
     text-align: center;
 }
 .toast-msg{
-    background-color: rgba(0,0,0,0.7);
-    padding: 2px 5px;
-    border-radius: 5px;
+    background-color: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 10px;
 }
 .toastAnimate{
-    animation: toastKF 2s;
+    animation: toastKF 5s;
 }
 @keyframes toastKF{
     0% {opacity: 0;}
