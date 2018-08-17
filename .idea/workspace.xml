@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60cf32fe-e846-4a41-b53a-9f10a189cdf7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/view/css/my-app.css" beforeDir="false" afterPath="$PROJECT_DIR$/view/css/my-app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/view/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -70,7 +70,7 @@
           <entry key="cpp" value="3671" />
           <entry key="css" value="361" />
           <entry key="h" value="174" />
-          <entry key="html" value="8077" />
+          <entry key="html" value="8081" />
           <entry key="js" value="2" />
           <entry key="project" value="22" />
           <entry key="sh" value="113" />
@@ -82,7 +82,7 @@
         <counts>
           <entry key="Bash" value="97" />
           <entry key="CSS" value="361" />
-          <entry key="HTML" value="8077" />
+          <entry key="HTML" value="8081" />
           <entry key="JavaScript" value="2" />
           <entry key="ObjectiveC" value="3845" />
           <entry key="PLAIN_TEXT" value="276" />
@@ -140,8 +140,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="326" column="23" selection-start-line="326" selection-start-column="18" selection-end-line="326" selection-end-column="23" />
+            <state relative-caret-position="124">
+              <caret line="583" column="40" selection-start-line="583" selection-start-column="40" selection-end-line="583" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -367,8 +367,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>deletelist</find>
-      <find>addItem</find>
       <find>save</find>
       <find>Vue</find>
       <find>vue</find>
@@ -397,6 +395,8 @@
       <find>删除</find>
       <find>错误</find>
       <find>alert</find>
+      <find>frpc_config</find>
+      <find>frpc_config错误</find>
     </findStrings>
     <replaceStrings>
       <replace>frpc</replace>
@@ -572,10 +572,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207186000" />
+    <option name="totallyTimeSpent" value="207834000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1701" height="977" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23508137" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1004,8 +1005,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="326" column="23" selection-start-line="326" selection-start-column="18" selection-end-line="326" selection-end-column="23" />
+        <state relative-caret-position="124">
+          <caret line="583" column="40" selection-start-line="583" selection-start-column="40" selection-end-line="583" selection-end-column="40" />
         </state>
       </provider>
     </entry>

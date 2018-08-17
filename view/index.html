@@ -581,24 +581,14 @@
                         token: "",
                         log_file: "./frpc.log",
                         log_days: 3,
-                        log_level: "error",
+                        log_level: "info",
                         tcp_mux: true,
                         protocol: "tcp",
                         tcp_mux: false,
                         login_fail_exit: false
                     };
 
-                    configList = [{
-                        name: "router",
-                        type: "tcp",
-                        local_ip: "127.0.0.1",
-                        local_port: "80",
-                        use_encryption: true,
-                        use_compression: false,
-                        use_compression: false,
-                        subdomain: "mtjo",
-                        custom_domains: "router.mtjo.net"
-                    }];
+                    configList = [];
 
                 } else {
                     jsonobj = jQuery.parseJSON(frpc_config);
