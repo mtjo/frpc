@@ -102,8 +102,8 @@ Frp::onParameterRecieved(const std::string &params) {
     } else if (method == "getStatus") {
         std::string version = exec("frp/frpc -v");
 
-        std::string status = exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|awk '{print $1}'");
-        exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|awk '{print $1}'>pid");
+        std::string status = exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'");
+        exec("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'>pid");
         data.put("version", version);
         data.put("status", status);
 
