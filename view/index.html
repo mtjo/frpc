@@ -98,7 +98,7 @@
 
                                     <tr v-show="common.log_on">
                                         <td class="text_right">日志记录：</td>
-                                        <td><input v-model="common.log_file" placeholder="/userdata/frpc.log"
+                                        <td><input v-model="common.log_file" placeholder="/userdata/Frp/frpc.log"
                                                    type="text"></td>
                                     </tr>
                                     <!-- trace, debug, info, warn, error -->
@@ -241,9 +241,9 @@
                     <div class="help">
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
-                        <p>*日志默认不开启，开启日志九建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
+                        <p>*日志默认不开启，开启日志建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
                         <font color="red">*点击保存，会保存当前页面配置，且frpc读取的是最新保存的配置</font>
-                        <p>*保存配置后请重启frpc进程以便配置生效</p>
+                        <p>*保存配置后frpc正在运行，则进程会自动重启</p>
                         <p>*列表左滑可以删除</p>
                         <p>
 
@@ -333,7 +333,7 @@
                 if (tmp_config.log_on==false){
                     tmp_config.log_file = "/dev/null"
                 }
-                delete tmp_config.log_on;
+                //delete tmp_config.log_on;
                 configData = {common:tmp_config };
                 $.each(router_app.$data.configList, function (index, item) {
                     key_name = item.name;
@@ -618,6 +618,7 @@
                     //alert(JSON.stringify(commonConfig));
                     //alert(JSON.stringify(configList));
                 }
+
                 router_app.$data.common = commonConfig;
                 router_app.$data.configList = configList;
 
