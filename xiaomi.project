@@ -48,6 +48,8 @@ access_userdata= "true";
 
 access_proc = "true";
 
+access_dev = "true";
+
 #是否需要支持"下载"功能，此项为true才能够使用下载相关的sdk
 support_download= "false";
 

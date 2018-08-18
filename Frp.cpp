@@ -31,7 +31,7 @@ using router::DataTransfer;
 Frp::Frp() {
 }
 void startFrpc(){
-    system("./frp/autorun.sh");
+    system("/frp/frpc_autorun.sh");
 }
 void
 Frp::onLaunched(const std::vector <std::string> &parameters) {
@@ -196,7 +196,7 @@ void Frp::runFrpc() {
     router::DataTransfer::getData("configType", configType);
 
     FILE *fp = NULL;
-    fp = fopen("/frp/autorun.sh", "w+");
+    fp = fopen("/frp/frpc_autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
     if(configType=="base"){
         fputs("/frp/frpc -c /etc/frpc_config.ini &>/dev/null\n", fp);
@@ -207,7 +207,6 @@ void Frp::runFrpc() {
     fclose(fp);
 
     if (run_status == "1") {
-        //system("./frp/autorun.sh");
         std::thread subthread(startFrpc);
         subthread.detach();
     }
@@ -215,11 +214,11 @@ void Frp::runFrpc() {
 
 void Frp::stopFrpc() {
     system("killall frp/frpc");
-    system("killall frp/autorun.sh");
+    system("killall frp/frpc_autorun.sh");
 
     FILE *fp = NULL;
 
-    fp = fopen("/frp/autorun.sh", "w+");
+    fp = fopen("/frp/frpc_autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
     fputs("echo \"off\"\n", fp);
     fputs("exit\n", fp);

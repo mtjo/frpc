@@ -16,7 +16,6 @@ LDFLAGS = -Wall -O2 -lxmrouter -lthrift -lssl -lcrypto -lconfig++ -ljson-c \
 dir : 
 	mkdir -p $(BUILDDIR)
 	mkdir -p $(BUILDDIR)frp
-	mkdir -p $(BUILDDIR)dev
 
 makebinary :
 	$(CXX) $(CXXFLAGS) JSON.cpp inifile.c Frp.cpp $(LIB_DIR) $(LDFLAGS) -o $(BINARY)
@@ -29,7 +28,4 @@ clean:
 package: 
 	cp start_script build/
 	cp -rf frp/* build/frp/
-	cp -rf dev/* build/dev/
-	cp autorun.sh build/frp
-	cp frpc.sh build/frp
 	../plugin_packager_x64

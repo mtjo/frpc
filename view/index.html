@@ -87,16 +87,25 @@
                                         <td class="text_right">token：</td>
                                         <td><input v-model="common.token" type="text" placeholder="token"></td>
                                     </tr>
+
+
                                     <tr>
                                         <td class="text_right">日志记录：</td>
-                                        <td><input v-model="common.log_file" placeholder="./frpc.log"
+                                        <td><input v-model="common.log_on" class="mui-switch mui-switch-anim"
+                                                   type="checkbox"/></td>
+                                    </tr>
+
+
+                                    <tr v-show="common.log_on">
+                                        <td class="text_right">日志记录：</td>
+                                        <td><input v-model="common.log_file" placeholder="/userdata/frpc.log"
                                                    type="text"></td>
                                     </tr>
                                     <!-- trace, debug, info, warn, error -->
-                                    <tr class="text_right">
+                                    <tr  v-show="common.log_on" class="text_right">
                                         <td>日志级别：</td>
                                         <td>
-                                            <select v-model="common.log_level" name="log_level">
+                                            <select v-model="common.log_level">
                                                 <option value="trace">trace</option>
                                                 <option value="debug">debug</option>
                                                 <option value="info">info</option>
@@ -104,7 +113,7 @@
                                                 <option value="error">error</option>
                                             </select></td>
                                     </tr>
-                                    <tr>
+                                    <tr  v-show="common.log_on" >
                                         <td class="text_right">日志天数：</td>
                                         <td><input v-model="common.log_days" type="number" name="log_days"
                                                    placeholder="3">
@@ -232,6 +241,7 @@
                     <div class="help">
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
+                        <p>*日志默认不开启，开启日志九建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
                         <font color="red">*点击保存，会保存当前页面配置，且frpc读取的是最新保存的配置</font>
                         <p>*保存配置后请重启frpc进程以便配置生效</p>
                         <p>*列表左滑可以删除</p>
@@ -280,7 +290,19 @@
             tabsParam: ['基本配置', '自定义配置', "?"],//（这个也可以用对象key，value来实现）
             nowIndex: 0,//默认激活状态
             user_config: "",
-            common: {},
+            common: {
+                server_addr: "",
+                server_port: "",
+                token: "",
+                log_on: false,
+                log_file: "/userdata/Frp/frpc.log",
+                log_days: 3,
+                log_level: "info",
+                tcp_mux: true,
+                protocol: "tcp",
+                tcp_mux: false,
+                login_fail_exit: false
+            },
             configList: [],
             version: "----",
             status: "----",
@@ -306,8 +328,13 @@
                 })
             },
             saveConfig: function () {
+                var tmp_config = router_app.$data.common;
 
-                configData = {common: router_app.$data.common};
+                if (tmp_config.log_on==false){
+                    tmp_config.log_file = "/dev/null"
+                }
+                delete tmp_config.log_on;
+                configData = {common:tmp_config };
                 $.each(router_app.$data.configList, function (index, item) {
                     key_name = item.name;
                     configData[key_name] = {}
@@ -574,23 +601,7 @@
 
                 frpc_config = decodeURIComponent(response.value);
                 //alert(frpc_config);
-                if (frpc_config == "") {
-                    commonConfig = {
-                        server_addr: "",
-                        server_port: "",
-                        token: "",
-                        log_file: "./frpc.log",
-                        log_days: 3,
-                        log_level: "info",
-                        tcp_mux: true,
-                        protocol: "tcp",
-                        tcp_mux: false,
-                        login_fail_exit: false
-                    };
-
-                    configList = [];
-
-                } else {
+                if (frpc_config !=""){
                     jsonobj = jQuery.parseJSON(frpc_config);
 
                     //alert(jsonobj)
