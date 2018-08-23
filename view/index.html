@@ -85,7 +85,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text_right">token：</td>
-                                        <td><input v-model="common.token" type="text" placeholder="token"></td>
+                                        <td><input v-model="common.token" type="password" placeholder="token"></td>
                                     </tr>
 
 
@@ -102,7 +102,7 @@
                                                    type="text"></td>
                                     </tr>
                                     <!-- trace, debug, info, warn, error -->
-                                    <tr  v-show="common.log_on" class="text_right">
+                                    <tr v-show="common.log_on" class="text_right">
                                         <td>日志级别：</td>
                                         <td>
                                             <select v-model="common.log_level">
@@ -113,7 +113,7 @@
                                                 <option value="error">error</option>
                                             </select></td>
                                     </tr>
-                                    <tr  v-show="common.log_on" >
+                                    <tr v-show="common.log_on">
                                         <td class="text_right">日志天数：</td>
                                         <td><input v-model="common.log_days" type="number" name="log_days"
                                                    placeholder="3">
@@ -330,17 +330,19 @@
             saveConfig: function () {
                 var tmp_config = router_app.$data.common;
 
-                if (tmp_config.log_on==false){
+                if (tmp_config.log_on == false) {
                     tmp_config.log_file = "/dev/null"
                 }
                 //delete tmp_config.log_on;
-                configData = {common:tmp_config };
+                configData = {common: tmp_config};
                 $.each(router_app.$data.configList, function (index, item) {
                     key_name = item.name;
                     configData[key_name] = {}
                     $.each(item, function (key, val) {
                         if (key != "name") {
-                            configData[key_name][key] = val;
+                            if (val != "") {//删除空值
+                                configData[key_name][key] = val;
+                            }
                         }
                     });
                 });
@@ -393,19 +395,19 @@
                         }
                         //alert("配置保存成功");
                         toast('配置保存成功!')
-                        if (router_app.$data.run_status ){
+                        if (router_app.$data.run_status) {
                             router_app.$data.status = "重启中..."
                             routerRequest.request({
                                 path: "/api-third-party/service/datacenter/plugin_control",
                                 type: "GET",
                                 data: {
                                     appId: appId,
-                                    info: JSON.stringify({method:"restartFrpc"})
+                                    info: JSON.stringify({method: "restartFrpc"})
                                 },
-                                success:function (res) {
+                                success: function (res) {
                                     toast('Frpc进程重启成功!')
                                 },
-                                error:function (res) {
+                                error: function (res) {
 
                                 }
                             });
@@ -601,7 +603,7 @@
 
                 frpc_config = decodeURIComponent(response.value);
                 //alert(frpc_config);
-                if (frpc_config !=""){
+                if (frpc_config != "") {
                     jsonobj = jQuery.parseJSON(frpc_config);
 
                     //alert(jsonobj)
@@ -688,15 +690,16 @@
         });
 
     }
-    function toast(msg){
-        setTimeout(function(){
-            document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML=msg;
+
+    function toast(msg) {
+        setTimeout(function () {
+            document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML = msg;
             var toastTag = document.getElementsByClassName('toast-wrap')[0];
-            toastTag.className = toastTag.className.replace('toastAnimate','');
-            setTimeout(function(){
+            toastTag.className = toastTag.className.replace('toastAnimate', '');
+            setTimeout(function () {
                 toastTag.className = toastTag.className + ' toastAnimate';
             }, 100);
-        },500);
+        }, 500);
     }
 </script>
 
