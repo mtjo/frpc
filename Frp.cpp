@@ -33,10 +33,19 @@ Frp::Frp() {
 void startFrpc(){
     system("/frp/frpc_autorun.sh");
 }
+
+void killAutorun(){
+    system("sleep 2 && killall \"frpc_autorun.sh\">>./shell.log");
+}
+
+
 void
 Frp::onLaunched(const std::vector <std::string> &parameters) {
     std::thread subthread(startFrpc);
     subthread.detach();
+
+    std::thread killthread(killAutorun);
+    killthread.detach();
 
 };
 
@@ -209,6 +218,10 @@ void Frp::runFrpc() {
     if (run_status == "1") {
         std::thread subthread(startFrpc);
         subthread.detach();
+//
+        std::thread killthread(killAutorun);
+        killthread.detach();
+
     }
 }
 
