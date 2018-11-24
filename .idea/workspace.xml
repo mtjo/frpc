@@ -10,6 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60cf32fe-e846-4a41-b53a-9f10a189cdf7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Frp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.1.0.0.mpk" beforeDir="false" afterPath="$PROJECT_DIR$/app.1.0.0.mpk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Frpc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Frpc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/view/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -23,33 +28,34 @@
     <session id="993646354">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="13" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="1" />
-          <entry key="project.open.time.13" value="1" />
+          <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.16" value="1" />
-          <entry key="project.open.time.2" value="2" />
-          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.2" value="3" />
+          <entry key="project.open.time.22" value="1" />
+          <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="Makefile" value="5" />
+          <entry key="Makefile" value="6" />
           <entry key="README" value="2" />
           <entry key="c" value="1" />
-          <entry key="cpp" value="12" />
-          <entry key="css" value="28" />
-          <entry key="h" value="18" />
-          <entry key="html" value="7" />
+          <entry key="cpp" value="19" />
+          <entry key="css" value="32" />
+          <entry key="h" value="25" />
+          <entry key="html" value="8" />
           <entry key="ini" value="5" />
-          <entry key="js" value="6" />
-          <entry key="project" value="5" />
+          <entry key="js" value="8" />
+          <entry key="project" value="6" />
           <entry key="sh" value="9" />
           <entry key="start_script" value="8" />
           <entry key="vue" value="1" />
@@ -58,20 +64,20 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Bash" value="7" />
-          <entry key="CSS" value="28" />
-          <entry key="HTML" value="7" />
-          <entry key="JavaScript" value="6" />
-          <entry key="ObjectiveC" value="31" />
-          <entry key="PLAIN_TEXT" value="28" />
+          <entry key="CSS" value="32" />
+          <entry key="HTML" value="8" />
+          <entry key="JavaScript" value="8" />
+          <entry key="ObjectiveC" value="45" />
+          <entry key="PLAIN_TEXT" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Makefile" value="118" />
-          <entry key="cpp" value="3744" />
+          <entry key="Makefile" value="135" />
+          <entry key="cpp" value="4243" />
           <entry key="css" value="361" />
-          <entry key="h" value="174" />
-          <entry key="html" value="8424" />
+          <entry key="h" value="318" />
+          <entry key="html" value="8595" />
           <entry key="js" value="2" />
           <entry key="project" value="27" />
           <entry key="sh" value="113" />
@@ -83,48 +89,94 @@
         <counts>
           <entry key="Bash" value="97" />
           <entry key="CSS" value="361" />
-          <entry key="HTML" value="8424" />
+          <entry key="Doxygen file" value="1" />
+          <entry key="HTML" value="8595" />
           <entry key="JavaScript" value="2" />
-          <entry key="ObjectiveC" value="3918" />
-          <entry key="PLAIN_TEXT" value="289" />
+          <entry key="ObjectiveC" value="4560" />
+          <entry key="PLAIN_TEXT" value="306" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Frp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="-1006">
+              <caret line="56" column="23" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Frp.h">
+        <entry file="file://$PROJECT_DIR$/Tools.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="59" lean-forward="true" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tools.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="44" column="14" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JSON.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+              <caret line="12" column="10" selection-start-line="12" selection-end-line="12" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/start_script">
+        <entry file="file://$PROJECT_DIR$/INIParser.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+            <state relative-caret-position="2166">
+              <caret line="188" column="11" selection-start-line="188" selection-start-column="11" selection-end-line="188" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/view/index.html">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/INIParser.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="342" column="50" selection-start-line="342" selection-start-column="50" selection-end-line="342" selection-end-column="50" />
+            <state relative-caret-position="-11">
+              <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JSON.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="124">
+              <caret line="15" column="8" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inifile.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -132,66 +184,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xiaomi.project">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="61" column="30" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/css/framework7.ios.min.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="14" column="49650" selection-start-line="14" selection-start-column="49650" selection-end-line="14" selection-end-column="49987" />
-              <folding>
-                <element signature="e#32969#33501#2" expanded="true" />
-                <element signature="e#33912#34399#2" expanded="true" />
-                <element signature="e#37514#37745#2" expanded="true" />
-                <element signature="e#37806#38031#2" expanded="true" />
-                <element signature="e#38089#38384#2" expanded="true" />
-                <element signature="e#38484#38783#2" expanded="true" />
-                <element signature="e#38856#39677#2" expanded="true" />
-                <element signature="e#40843#41107#2" expanded="true" />
-                <element signature="e#41142#41411#2" expanded="true" />
-                <element signature="e#48564#48819#2" expanded="true" />
-                <element signature="e#53172#53427#2" expanded="true" />
-                <element signature="e#55375#55652#2" expanded="true" />
-                <element signature="e#64639#64972#2" expanded="true" />
-                <element signature="e#65430#65710#2" expanded="true" />
-                <element signature="e#66864#67119#2" expanded="true" />
-                <element signature="e#68483#68790#2" expanded="true" />
-                <element signature="e#92061#92273#1" expanded="true" />
-                <element signature="e#92431#92699#1" expanded="true" />
-                <element signature="e#93142#93354#1" expanded="true" />
-                <element signature="e#93826#94092#1" expanded="true" />
-                <element signature="e#95847#97294#2" expanded="true" />
-                <element signature="e#97512#98956#2" expanded="true" />
-                <element signature="e#99504#99759#2" expanded="true" />
-                <element signature="e#103350#103608#2" expanded="true" />
-                <element signature="e#103709#103967#2" expanded="true" />
-                <element signature="e#126393#127035#2" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/js/my-app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="60" column="15" selection-start-line="60" selection-start-column="15" selection-end-line="60" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/css/my-app.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5175">
-              <caret line="345" column="1" selection-start-line="345" selection-start-column="1" selection-end-line="345" selection-end-column="1" />
+            <state relative-caret-position="15">
+              <caret line="1" column="31" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -200,25 +194,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>frpc_status</find>
-      <find>version</find>
-      <find>savebase</find>
-      <find>saveConfig</find>
-      <find>log_file</find>
-      <find>runFrpc</find>
-      <find>run_status</find>
-      <find>resCode</find>
-      <find>toast</find>
-      <find>删除</find>
-      <find>错误</find>
-      <find>alert</find>
-      <find>frpc_config</find>
-      <find>frpc_config错误</find>
-      <find>save</find>
-      <find>info</find>
-      <find>log_level</find>
-      <find>/frpc.log</find>
-      <find>log_le</find>
       <find>common</find>
       <find>frpc.log</find>
       <find>autorun</find>
@@ -230,9 +205,30 @@
       <find>killAutorun</find>
       <find>token</find>
       <find>saveconfig</find>
+      <find>saveConfig</find>
+      <find>getConfig</find>
+      <find>getFrpc</find>
+      <find>getFrpcStatus</find>
+      <find>getStatus</find>
+      <find>method</find>
+      <find>getFrpcConfig</find>
+      <find>runFrpc</find>
+      <find>DataTransfer</find>
+      <find>config</find>
+      <find>exec</find>
+      <find>sCallSystem</find>
+      <find>runCommand</find>
+      <find>Frpgi.h</find>
+      <find>getDataByKey</find>
+      <find>PluginTools</find>
+      <find>getData</find>
+      <find>saveData</find>
+      <find>getParamsByKey</find>
     </findStrings>
     <replaceStrings>
       <replace>frpc</replace>
+      <replace>PluginTools</replace>
+      <replace>runCommand</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -258,10 +254,13 @@
         <option value="$PROJECT_DIR$/view/js/index.js" />
         <option value="$PROJECT_DIR$/view/css/my-app.css" />
         <option value="$PROJECT_DIR$/xiaomi.project" />
-        <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/start_script" />
-        <option value="$PROJECT_DIR$/Frp.cpp" />
         <option value="$PROJECT_DIR$/view/index.html" />
+        <option value="$PROJECT_DIR$/Tool.h" />
+        <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/Frp.cpp" />
+        <option value="$PROJECT_DIR$/Tools.h" />
+        <option value="$PROJECT_DIR$/Tools.cpp" />
       </list>
     </option>
   </component>
@@ -273,10 +272,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="86" />
-    <option name="y" value="23" />
-    <option name="width" value="1701" />
-    <option name="height" value="977" />
+    <option name="x" value="53" />
+    <option name="y" value="105" />
+    <option name="width" value="1803" />
+    <option name="height" value="926" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -290,11 +289,6 @@
             <path>
               <item name="frpc" type="b2602c69:ProjectViewProjectNode" />
               <item name="frpc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="frpc" type="b2602c69:ProjectViewProjectNode" />
-              <item name="frpc" type="462c0819:PsiDirectoryNode" />
-              <item name="frp" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -314,14 +308,14 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/view/js" />
-      <recent name="$PROJECT_DIR$/view/img" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frp" />
       <recent name="$PROJECT_DIR$/view" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/view/js" />
+      <recent name="$PROJECT_DIR$/view/img" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -404,18 +398,22 @@
       <workItem from="1534433418065" duration="998000" />
       <workItem from="1534582227721" duration="3250000" />
       <workItem from="1534599521926" duration="1901000" />
-      <workItem from="1535004670855" duration="466000" />
+      <workItem from="1535004670855" duration="5103000" />
+      <workItem from="1535092434113" duration="22000" />
+      <workItem from="1539678590380" duration="763000" />
+      <workItem from="1539739751264" duration="270000" />
+      <workItem from="1542979636578" duration="18657000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="215436000" />
+    <option name="totallyTimeSpent" value="239785000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="86" y="23" width="1701" height="977" extended-state="0" />
+    <frame x="53" y="105" width="1803" height="926" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23267028" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23055083" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
@@ -430,10 +428,10 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3364269" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.33538842" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="CMake" order="11" weight="0.3259861" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.45469254" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -457,20 +455,6 @@
     <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/INIParser.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2820">
-          <caret line="188" column="11" selection-start-line="188" selection-start-column="11" selection-end-line="188" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/INIParser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/start_script">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -490,22 +474,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build/frp/frpc_full.ini" />
     <entry file="file://$PROJECT_DIR$/build/frp/frpc.ini" />
-    <entry file="file://$PROJECT_DIR$/TaskWatcher.h" />
-    <entry file="file://$PROJECT_DIR$/SystemState.h" />
-    <entry file="file://$PROJECT_DIR$/JSON.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/autorun.sh" />
-    <entry file="file://$PROJECT_DIR$/inifile.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TaskWatcher.cpp" />
     <entry file="file://$PROJECT_DIR$/view/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4892" />
@@ -535,14 +504,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frpc.sh" />
-    <entry file="file://$PROJECT_DIR$/JSON.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="3" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SystemState.cpp" />
     <entry file="file://$PROJECT_DIR$/view/css/framework7.material.colors.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -578,34 +539,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frp/frpc_full.ini" />
     <entry file="file://$PROJECT_DIR$/frp/frpc.ini" />
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="4" lean-forward="true" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start_script">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/css/framework7.ios.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="945">
@@ -658,17 +591,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xiaomi.project">
+    <entry file="file://$PROJECT_DIR$/start_script">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="30" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="30" />
+        <state>
+          <caret column="20" selection-start-column="20" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="342" column="50" selection-start-line="342" selection-start-column="50" selection-end-line="342" selection-end-column="50" />
+        <state relative-caret-position="735">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TaskWatcher.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TaskWatcher.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tools.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/INIParser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11">
+          <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xiaomi.project">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="31" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/INIParser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2166">
+          <caret line="188" column="11" selection-start-line="188" selection-start-column="11" selection-end-line="188" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JSON.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="10" selection-start-line="12" selection-end-line="12" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inifile.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JSON.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tools.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="44" column="14" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tools.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="59" lean-forward="true" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1006">
+          <caret line="56" column="23" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
         </state>
       </provider>
     </entry>

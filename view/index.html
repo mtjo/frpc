@@ -70,6 +70,7 @@
                         <div class="list-block">
                             基本配置
                             <hr/>
+
                             <form id="common">
                                 <table align="center" style="width: 90%">
                                     <tr style="width: 30%">
@@ -239,6 +240,10 @@
 
                 <div class="tabs tab-content" v-show="nowIndex===2">
                     <div class="help">
+                        <input type="button" onclick="plugin_enable()" value="enable"/>
+                        <input type="button" onclick="plugin_disable()" value="disable"/>
+                        <input type="button" onclick="get_plugin_status()" value="status"/>
+                        <input type="button" onclick="run_command('ps')" value="run_command"/>
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
                         <p>*日志默认不开启，开启日志建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
@@ -349,7 +354,7 @@
 
 
                 datesend = {
-                    method: "saveConfig",
+                    method: "saveFrpcConfig",
                     data: router_app.$data.nowIndex == "1" ? router_app.$data.user_config : configData,
                     type: router_app.$data.nowIndex == "1" ? "user" : "base"
                 };
@@ -453,14 +458,14 @@
                             type: "GET",
                             data: {
                                 appId: appId,
-                                info: JSON.stringify({method: "getStatus"})
+                                info: JSON.stringify({method: "getFrpcStatus"})
                             },
                             success: function (data) {
                                 // alert(data)
                                 var response = jQuery.parseJSON(data);
                                 if (response.code != 0) {
                                     console.log(data);
-                                    alert("getStatus：" + response.msg);
+                                    alert("getFrpcStatus：" + response.msg);
                                     return;
                                 }
                                 //alert(data);
@@ -477,7 +482,7 @@
 
                             },
                             error: function (data) {
-                                alert("getStatus:" + data);
+                                alert("getFrpcStatus:" + data);
                             }
                         });
 
@@ -637,13 +642,13 @@
             type: "GET",
             data: {
                 appId: appId,
-                info: JSON.stringify({method: "getConfig", type: "user"})
+                info: JSON.stringify({method: "getFrpcConfig", type: "user"})
             },
             success: function (data) {
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    toast("method: \"getConfig\"\n错误：" + response.msg);
+                    toast("method: \"getFrpcConfig\"\n错误：" + response.msg);
                     return;
                 }
                 //alert(response.data);
@@ -661,14 +666,14 @@
             type: "GET",
             data: {
                 appId: appId,
-                info: JSON.stringify({method: "getStatus"})
+                info: JSON.stringify({method: "getFrpcStatus"})
             },
             success: function (data) {
 
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    toast("method: \"getStatus\" \n错误：" + response.msg);
+                    toast("method: \"getFrpcStatus\" \n错误：" + response.msg);
                     return;
                 }
                 //alert(data);
@@ -690,6 +695,77 @@
         });
 
     }
+
+    //开启插件
+    function plugin_enable(){
+        routerRequest.request({
+        path: "/api-third-party/service/datacenter/plugin_enable",
+        type: "GET",
+        data: {
+            appId: appId
+        },
+        success: function (data) {
+            var response = jQuery.parseJSON(data);
+            if (response.code != 0) {
+                console.log(data);
+                toast("启动插件错误：" + response.msg);
+                return;
+            }
+            toast(data)
+        },
+        error: function (data) {
+            alert("plugin_control:" + data);
+        }
+    });
+    }
+
+    //关闭插件
+    function plugin_disable(){
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/plugin_disable",
+            type: "GET",
+            data: {
+                appId: appId
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("关闭插件错误：" + response.msg);
+                    return;
+                }
+                toast(data)
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
+            }
+        });
+    }
+
+    //获取插件开启关闭状态
+    function get_plugin_status(){
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/get_plugin_status",
+            type: "GET",
+            data: {
+                appId: appId
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("获取插件开启关闭状态错误：" + response.msg);
+                    return;
+                }
+                toast(data)
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
+            }
+        });
+    }
+
+
 
     function toast(msg) {
         setTimeout(function () {
