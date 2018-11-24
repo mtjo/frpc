@@ -52,7 +52,7 @@ Frp::onLaunched(const std::vector <std::string> &parameters) {
 
 std::string
 Frp::onParameterRecieved(const std::string &params) {
-    std::string method = getMethod(params);
+    std::string method = Tools::getParamsByKey(params, "method");
     JSONObject data;
     if (method == "") {
         return JSONObject::error(999, "method can not be null");
@@ -125,19 +125,6 @@ Frp::onParameterRecieved(const std::string &params) {
 
 }
 
-std::string
-Frp::getMethod(const std::string &params) {
-    const char *ch = params.data();
-    struct json_object *jsonObject = NULL;
-    jsonObject = json_tokener_parse(ch);
-    std::string method = "";
-    if ((long) jsonObject > 0) {/**Json格式无错误**/
-        jsonObject = json_object_object_get(jsonObject, "method");
-        method = json_object_get_string(jsonObject);
-    }
-    json_object_put(jsonObject);
-    return method;
-}
 
 
 void
@@ -190,7 +177,6 @@ void Frp::stopFrpc() {
     fputs("exit\n", fp);
 
     fclose(fp);
-
 
 }
 
