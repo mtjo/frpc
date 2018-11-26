@@ -93,7 +93,7 @@
                                     <tr>
                                         <td class="text_right">日志记录：</td>
                                         <td><input v-model="common.log_on" class="mui-switch mui-switch-anim"
-                                                   type="checkbox"/></td>
+                                                   type="checkbox"/> <font color="green" href="" @click="showFrpcLogFile()" >查看日志</font> </td>
                                     </tr>
 
 
@@ -338,6 +338,9 @@
                 if (tmp_config.log_on == false) {
                     tmp_config.log_file = "/dev/null"
                 }
+                if (tmp_config.log_on == true && tmp_config.log_file == "") {
+                    tmp_config.log_file = "/userdata/Frp/frpc.log"
+                }
                 //delete tmp_config.log_on;
                 configData = {common: tmp_config};
                 $.each(router_app.$data.configList, function (index, item) {
@@ -367,7 +370,7 @@
                     type: "GET",
                     data: {
                         appId: appId,
-                        key: "frpc_config",
+                        key: "frpcConfig",
                         value: configData
                     },
                     success: function (data) {
@@ -547,6 +550,31 @@
                 this.restSlide();
                 // 删除
                 router_app.$data.configList.splice(index, 1);
+            },
+            showFrpcLogFile(){
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_control",
+                    type: "GET",
+                    data: {
+                        appId: appId,
+                        info: JSON.stringify({method: "showFrpcLogFile"})
+                    },
+                    success: function (data) {
+                        // alert(data)
+                        var response = jQuery.parseJSON(data);
+                        if (response.code != 0) {
+                            console.log(data);
+                            alert("getFrpcStatus：" + response.msg);
+                            return;
+                        }
+                        alert(response.data);
+
+
+                    },
+                    error: function (data) {
+                        alert("showFrpcLogFile:" + data);
+                    }
+                });
             }
 
         }
@@ -595,21 +623,21 @@
             type: "GET",
             data: {
                 appId: appId,
-                key: "frpc_config"
+                key: "frpcConfig"
             },
             success: function (data) {
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    toast("frpc_config错误：" + response.msg);
+                    toast("frpcConfig错误：" + response.msg);
                     return;
                 }
                 //alert(data);
 
-                frpc_config = decodeURIComponent(response.value);
-                //alert(frpc_config);
-                if (frpc_config != "") {
-                    jsonobj = jQuery.parseJSON(frpc_config);
+                frpcConfig = decodeURIComponent(response.value);
+                //alert(frpcConfig);
+                if (frpcConfig != "") {
+                    jsonobj = jQuery.parseJSON(frpcConfig);
 
                     //alert(jsonobj)
                     i = 0

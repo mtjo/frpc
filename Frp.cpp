@@ -31,12 +31,11 @@ Frp::Frp() {
 }
 
 void startFrpc() {
-
     std::string output = Tools::runCommand("/frp/frpc_autorun.sh");
 }
 
 void killAutorun() {
-    system("sleep 2 && killall \"frpc_autorun.sh\">>./shell.log");
+    Tools::runCommand("sleep 2 && killall \"frpc_autorun.sh\">>./shell.log");
 }
 
 
@@ -103,28 +102,44 @@ Frp::onParameterRecieved(const std::string &params) {
 
 
     } else if (method == "runFrpc") {
-        Tools::saveData("run_status", "1");
+        Tools::saveData("runStatus", "1");
         runFrpc();
         return JSONObject::success();
     } else if (method == "stopFrpc") {
 
-        Tools::saveData("run_status", "0");
+        Tools::saveData("runStatus", "0");
 
-        std::string run_status = Tools::getData("run_status");
-        data.put("run_status", run_status);
+        std::string runStatus = Tools::getData("runStatus");
+        data.put("runStatus", runStatus);
         stopFrpc();
         return JSONObject::success(data);
     } else if (method == "restartFrpc") {
         stopFrpc();
         runFrpc();
         return JSONObject::success(data);
+    } else if (method == "showFrpcLogFile") {
+        std::string file = "";
+        char *value = (char*) file.data();
+        std::string configType = Tools::getData("configType");
+        std::string logFile = "";
+        if (configType == "base") {
+            file = "/etc/frpc_config.ini";
+        } else {
+            file = "/etc/frpc_user_config.ini";
+        }
+        read_profile_string("common", "log_file", value,1024, "/dev/null", file.data());
+        logFile = value;
+        std::string logStr ="日志文件不存在！！！";
+        if (logFile != "/dev/null") {
+            logStr = Tools::runCommand("cat "+logFile);
+        }
+        return JSONObject::success(logFile);
     }
 
     return JSONObject::error(1, "parameter missing");
 
 
 }
-
 
 
 void
@@ -141,7 +156,7 @@ Frp::saveConfig(struct json_object *configData) {
 }
 
 void Frp::runFrpc() {
-    std::string run_status = Tools::getData("run_status");
+    std::string runStatus = Tools::getData("runStatus");
     std::string configType = Tools::getData("configType");
 
     FILE *fp = NULL;
@@ -155,7 +170,7 @@ void Frp::runFrpc() {
     fputs("echo \"on\"\n", fp);
     fclose(fp);
 
-    if (run_status == "1") {
+    if (runStatus == "1") {
         std::thread subthread(startFrpc);
         subthread.detach();
 //
@@ -166,8 +181,8 @@ void Frp::runFrpc() {
 }
 
 void Frp::stopFrpc() {
-    system("killall frp/frpc");
-    system("killall frp/frpc_autorun.sh");
+    Tools::runCommand("killall frp/frpc");
+    Tools::runCommand("killall frp/frpc_autorun.sh");
 
     FILE *fp = NULL;
 
