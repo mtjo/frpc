@@ -119,7 +119,6 @@ Frp::onParameterRecieved(const std::string &params) {
         return JSONObject::success(data);
     } else if (method == "showFrpcLogFile") {
         std::string file = "";
-        char *value = (char*) file.data();
         std::string configType = Tools::getData("configType");
         std::string logFile = "";
         if (configType == "base") {
@@ -127,13 +126,15 @@ Frp::onParameterRecieved(const std::string &params) {
         } else {
             file = "/etc/frpc_user_config.ini";
         }
-        read_profile_string("common", "log_file", value,1024, "/dev/null", file.data());
+        char value[32]={0};
+        read_profile_string("common","log_file",value, sizeof(value),"/dev/null",file.data());
+
         logFile = value;
         std::string logStr ="日志文件不存在！！！";
         if (logFile != "/dev/null") {
             logStr = Tools::runCommand("cat "+logFile);
         }
-        return JSONObject::success(logFile);
+        return JSONObject::success(logStr);
     }
 
     return JSONObject::error(1, "parameter missing");
