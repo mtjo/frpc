@@ -135,6 +135,23 @@ Frp::onParameterRecieved(const std::string &params) {
             logStr = Tools::runCommand("cat "+logFile);
         }
         return JSONObject::success(logStr);
+    } else if (method == "clearFrpcLogFile") {
+        std::string file = "";
+        std::string configType = Tools::getData("configType");
+        std::string logFile = "";
+        if (configType == "base") {
+            file = "/etc/frpc_config.ini";
+        } else {
+            file = "/etc/frpc_user_config.ini";
+        }
+        char value[32]={0};
+        read_profile_string("common","log_file",value, sizeof(value),"/dev/null",file.data());
+
+        logFile = value;
+        if (logFile != "/dev/null") {
+            Tools::runCommand("echo ''>" +logFile);
+        }
+        return JSONObject::success();
     }
 
     return JSONObject::error(1, "parameter missing");

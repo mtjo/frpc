@@ -33,6 +33,17 @@
 </head>
 
 <body>
+
+
+<div id="layout">
+    <div class="title"><i>日志记录</i><span onclick="hide()">X</span></div>
+
+    <div class="tabs tab-content"><textarea contenteditable="false" style="width: 100%; height: 500px;"
+                                            id="log_content"></textarea></div>
+
+</div>
+<div id="over"></div>
+
 <div id="router_app" class="views">
     <div class="view view-main">
         <div class="navbar">
@@ -93,7 +104,13 @@
                                     <tr>
                                         <td class="text_right">日志记录：</td>
                                         <td><input v-model="common.log_on" class="mui-switch mui-switch-anim"
-                                                   type="checkbox"/> <font color="green" href="" @click="showFrpcLogFile()" >查看日志</font> </td>
+                                                   type="checkbox"/>
+
+                                            <font v-show="common.log_on" color="green" href=""
+                                                  @click="showFrpcLogFile()">查看</font>
+                                            <font v-show="common.log_on" color="red" href=""
+                                                  @click="clearFrpcLogFile()">清除</font>
+                                        </td>
                                     </tr>
 
 
@@ -551,7 +568,7 @@
                 // 删除
                 router_app.$data.configList.splice(index, 1);
             },
-            showFrpcLogFile(){
+            showFrpcLogFile() {
                 routerRequest.request({
                     path: "/api-third-party/service/datacenter/plugin_control",
                     type: "GET",
@@ -564,12 +581,38 @@
                         var response = jQuery.parseJSON(data);
                         if (response.code != 0) {
                             console.log(data);
-                            alert("getFrpcStatus：" + response.msg);
+                            alert("showFrpcLogFile：" + response.msg);
                             return;
                         }
-                        alert(response.data);
+                        //alert(response.data);
+
+                        $('#log_content').text(response.data)
+                        show()
 
 
+                    },
+                    error: function (data) {
+                        alert("showFrpcLogFile:" + data);
+                    }
+                });
+            },
+            clearFrpcLogFile() {
+                routerRequest.request({
+                    path: "/api-third-party/service/datacenter/plugin_control",
+                    type: "GET",
+                    data: {
+                        appId: appId,
+                        info: JSON.stringify({method: "clearFrpcLogFile"})
+                    },
+                    success: function (data) {
+                        // alert(data)
+                        var response = jQuery.parseJSON(data);
+                        if (response.code != 0) {
+                            console.log(data);
+                            alert("showFrpcLogFile：" + response.msg);
+                            return;
+                        }
+                        toast("日志清除成功");
                     },
                     error: function (data) {
                         alert("showFrpcLogFile:" + data);
@@ -727,30 +770,30 @@
     }
 
     //开启插件
-    function plugin_enable(){
+    function plugin_enable() {
         routerRequest.request({
-        path: "/api-third-party/service/datacenter/plugin_enable",
-        type: "GET",
-        data: {
-            appId: appId
-        },
-        success: function (data) {
-            var response = jQuery.parseJSON(data);
-            if (response.code != 0) {
-                console.log(data);
-                toast("启动插件错误：" + response.msg);
-                return;
+            path: "/api-third-party/service/datacenter/plugin_enable",
+            type: "GET",
+            data: {
+                appId: appId
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("启动插件错误：" + response.msg);
+                    return;
+                }
+                toast(data)
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
             }
-            toast(data)
-        },
-        error: function (data) {
-            alert("plugin_control:" + data);
-        }
-    });
+        });
     }
 
     //关闭插件
-    function plugin_disable(){
+    function plugin_disable() {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_disable",
             type: "GET",
@@ -773,7 +816,7 @@
     }
 
     //获取插件开启关闭状态
-    function get_plugin_status(){
+    function get_plugin_status() {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/get_plugin_status",
             type: "GET",
@@ -796,7 +839,6 @@
     }
 
 
-
     function toast(msg) {
         setTimeout(function () {
             document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML = msg;
@@ -807,6 +849,23 @@
             }, 100);
         }, 500);
     }
+
+
+    function show() {
+        var layout = document.getElementById('layout');
+        var over = document.getElementById('over');
+        layout.style.display = "block";
+        over.style.display = "block";
+    }
+
+    function hide() {
+        var layout = document.getElementById('layout');
+        var over = document.getElementById('over');
+        layout.style.display = "none";
+        over.style.display = "none";
+    }
+
+
 </script>
 
 </body>
