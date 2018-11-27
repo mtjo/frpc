@@ -1,2 +1,2 @@
 MKDIR /userdata/Frp/
-RUN ./Frpc
+RUN Frpc

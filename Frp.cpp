@@ -160,15 +160,20 @@ void Frp::runFrpc() {
     std::string runStatus = Tools::getData("runStatus");
     std::string configType = Tools::getData("configType");
 
+
     FILE *fp = NULL;
     fp = fopen("/frp/frpc_autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
+    fputs("PID=`ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'`\n", fp);
+    fputs("if [ -z $PID ]; then \n", fp);
+
     if (configType == "base") {
         fputs("/frp/frpc -c /etc/frpc_config.ini &>/dev/null\n", fp);
     } else {
         fputs("/frp/frpc -c /etc/frpc_user_config.ini &>/dev/null\n", fp);
     }
     fputs("echo \"on\"\n", fp);
+    fputs("fi\n", fp);
     fclose(fp);
 
     if (runStatus == "1") {
