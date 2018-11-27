@@ -105,9 +105,12 @@
                                         <td class="text_right">日志记录：</td>
                                         <td><input v-model="common.log_on" class="mui-switch mui-switch-anim"
                                                    type="checkbox"/>
-
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <font v-show="common.log_on" color="green" href=""
                                                   @click="showFrpcLogFile()">查看</font>
+
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                                             <font v-show="common.log_on" color="red" href=""
                                                   @click="clearFrpcLogFile()">清除</font>
                                         </td>
@@ -257,12 +260,13 @@
 
                 <div class="tabs tab-content" v-show="nowIndex===2">
                     <div class="help">
-                        <input type="button" onclick="plugin_enable()" value="enable"/>
-                        <input type="button" onclick="plugin_disable()" value="disable"/>
-                        <input type="button" onclick="get_plugin_status()" value="status"/>
-                        <input type="button" onclick="run_command('ps')" value="run_command"/>
+                        <!--<input type="button" onclick="plugin_enable()" value="enable"/>-->
+                        <!--<input type="button" onclick="plugin_disable()" value="disable"/>-->
+                        <!--<input type="button" onclick="get_plugin_status()" value="status"/>-->
+                        <!--<input type="button" onclick="run_command('ps')" value="run_command"/>-->
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
+                        <font color="red">*服务端请使用对应版本</font>
                         <p>*日志默认不开启，开启日志建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
                         <font color="red">*点击保存，会保存当前页面配置，且frpc读取的是最新保存的配置</font>
                         <p>*保存配置后frpc正在运行，则进程会自动重启</p>
