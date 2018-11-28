@@ -50,10 +50,10 @@
             <div class="navbar-inner">
                 <table width="100%">
                     <tr>
-                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">frpc版本:{{version}}&nbsp;&nbsp;
-                            <font color="red">进程:{{status}}</font></font></td>
-                        <td align="right"><input width="150" v-model="run_status"
-                                                 @click="runFrpc(run_status)"
+                        <td><font colour="#FFFFFF">插件状态</font>&nbsp;<font size="2px" color="#d3d3d3">Frpc版本:{{frpcVersion}}&nbsp;&nbsp;
+                            <font color="red">进程:{{pid}}</font></font></td>
+                        <td align="right"><input width="150" v-model="runStatus"
+                                                 @click="runFrpc(runStatus)"
                                                  class="mui-switch mui-switch-anim" type="checkbox"></td>
                     </tr>
                 </table>
@@ -260,10 +260,13 @@
 
                 <div class="tabs tab-content" v-show="nowIndex===2">
                     <div class="help">
-                        <!--<input type="button" onclick="plugin_enable()" value="enable"/>-->
-                        <!--<input type="button" onclick="plugin_disable()" value="disable"/>-->
-                        <!--<input type="button" onclick="get_plugin_status()" value="status"/>-->
-                        <!--<input type="button" onclick="run_command('ps')" value="run_command"/>-->
+                        名称：{{name}} 版本：<font color="green">{{type}}</font>-{{version}}
+                        <hr/>
+
+                        <input type="button" onclick="pluginEnable()" value="enable"/>
+                        <input type="button" onclick="pluginDisable()" value="disable"/>
+                        <input type="button" onclick="getPluginStatus()" value="status"/>
+                        <input type="button" onclick="runCommand('pidof frpc')" value="runCommand"/>
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
                         <font color="red">*服务端请使用对应版本</font>
@@ -308,6 +311,9 @@
 </div>
 
 <script>
+
+    var appId = "2882303761517844809";
+
     var commonConfig = {};
     var configList = [];
     var router_app = new Vue({
@@ -331,8 +337,11 @@
             },
             configList: [],
             version: "----",
-            status: "----",
-            run_status: false,
+            type: "----",
+            name: "----",
+            pid: "----",
+            frpcVersion: "----",
+            runStatus: false,
             startX: 0,
             endX: 0,
         },
@@ -424,8 +433,8 @@
                         }
                         //alert("配置保存成功");
                         toast('配置保存成功!')
-                        if (router_app.$data.run_status) {
-                            router_app.$data.status = "重启中..."
+                        if (router_app.$data.runStatus) {
+                            router_app.$data.pid = "重启中..."
                             routerRequest.request({
                                 path: "/api-third-party/service/datacenter/plugin_control",
                                 type: "GET",
@@ -441,8 +450,6 @@
                                 }
                             });
                         }
-
-
                         loadconfig();
 
                     },
@@ -454,14 +461,13 @@
                 return;
             },
             runFrpc: function (item) {
-                method = "";
                 if (item) {
                     method = "runFrpc";
+                    router_app.$data.pid = "启动中...";
                 } else {
                     method = "stopFrpc";
+                    router_app.$data.pid = "停止中...";
                 }
-                router_app.$data.status = "执行中...";
-                //alert(method);
                 routerRequest.request({
                     path: "/api-third-party/service/datacenter/plugin_control",
                     type: "GET",
@@ -471,48 +477,23 @@
                     },
                     success: function (data) {
                         var response = jQuery.parseJSON(data);
-                        // if (response.code != 0) {
-                        //     console.log(data);
-                        //     alert("错误：" + response.msg);
-                        //     return;
-                        // }
+                        if (response.code != 0) {
+                            console.log(data);
+                            alert(method+"错误：" + response.msg);
+                            return;
+                        }
                         //alert(data);
-                        routerRequest.request({
-                            path: "/api-third-party/service/datacenter/plugin_control",
-                            type: "GET",
-                            data: {
-                                appId: appId,
-                                info: JSON.stringify({method: "getFrpcStatus"})
-                            },
-                            success: function (data) {
-                                // alert(data)
-                                var response = jQuery.parseJSON(data);
-                                if (response.code != 0) {
-                                    console.log(data);
-                                    alert("getFrpcStatus：" + response.msg);
-                                    return;
-                                }
-                                //alert(data);
-
-                                if (response.data.status != "") {
-                                    router_app.$data.run_status = true;
-                                    router_app.$data.status = response.data.status;
-
-                                } else {
-                                    router_app.$data.run_status = false;
-                                    router_app.$data.status = "未运行";
-                                }
-                                router_app.$data.version = response.data.version;
-
-                            },
-                            error: function (data) {
-                                alert("getFrpcStatus:" + data);
-                            }
-                        });
+                        if (response.data != "") {
+                            router_app.$data.runStatus = true;
+                            router_app.$data.pid = response.data;
+                        } else {
+                            router_app.$data.pid = "已停止";
+                            router_app.$data.runStatus = false;
+                        }
 
                     },
                     error: function (data) {
-                        alert("plugin_control:" + data);
+                        alert(method+":" + data);
                     }
                 });
             },//跳转
@@ -627,8 +608,7 @@
         }
     });
 
-    var status = 0;
-    var appId = "2882303761517844809";
+
 
     $(document).ready(function () {
         $("#authorizeButton").click(function () {
@@ -637,8 +617,9 @@
             }
         });
         //开启插件
-        plugin_enable();
+        pluginEnable();
         loadconfig();
+        getFrpcPid();
 
     });
 
@@ -661,6 +642,27 @@
                 //alert(data)
                 nowIndex = response.value == "base" ? 0 : 1;
                 router_app.$data.nowIndex = nowIndex;
+            },
+            error: function (data) {
+            }
+        });
+        //FRPC 版本
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/config_info",
+            type: "GET",
+            data: {
+                appId: appId,
+                key: "frpcVersion"
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("configType错误：" + response.msg);
+                    return;
+                }
+                //alert(data)
+                router_app.$data.frpcVersion = response.value;
             },
             error: function (data) {
             }
@@ -737,44 +739,44 @@
         });
 
 
+    }
+
+    //获取进程状态
+    function getFrpcPid(){
         //插件状态
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_control",
             type: "GET",
             data: {
                 appId: appId,
-                info: JSON.stringify({method: "getFrpcStatus"})
+                info: JSON.stringify({method: "getFrpcPid"})
             },
             success: function (data) {
 
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    toast("method: \"getFrpcStatus\" \n错误：" + response.msg);
+                    toast("method: \"getFrpcPid\" \n错误：" + response.msg);
                     return;
                 }
-                //alert(data);
-
-                if (response.data.status != "") {
-                    router_app.$data.run_status = true;
-                    router_app.$data.status = response.data.status;
+                if (response.data != "") {
+                    router_app.$data.runStatus = true;
+                    router_app.$data.pid = response.data;
                 } else {
-                    router_app.$data.status = "未运行";
-                    router_app.$data.run_status = false;
+                    router_app.$data.pid = "未运行";
+                    router_app.$data.runStatus = false;
                 }
-                router_app.$data.version = response.data.version;
-
-
             },
             error: function (data) {
-                alert("plugin_control:" + data);
+                alert("getFrpcPid:" + data);
             }
         });
-
     }
 
+
+
     //开启插件
-    function plugin_enable() {
+    function pluginEnable() {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_enable",
             type: "GET",
@@ -797,7 +799,7 @@
     }
 
     //关闭插件
-    function plugin_disable() {
+    function pluginDisable() {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_disable",
             type: "GET",
@@ -820,7 +822,7 @@
     }
 
     //获取插件开启关闭状态
-    function get_plugin_status() {
+    function getPluginStatus() {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/get_plugin_status",
             type: "GET",
@@ -842,6 +844,60 @@
         });
     }
 
+
+    function runCommand(command) {
+        //插件状态
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/plugin_control",
+            type: "GET",
+            data: {
+                appId: appId,
+                info: JSON.stringify({method: "runCommand", command})
+            },
+            success: function (data) {
+
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("runCommand错误：" + response.msg);
+                    return;
+                }
+                alert(response.data)
+
+
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
+            }
+        });
+
+    }
+
+    //获取路由器信息
+    function getRouterInfo() {
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/get_router_info",
+            type: "GET",
+            data: {
+                appId: appId
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast("获取路由器信息错误：" + response.msg);
+                    return;
+                }
+                //alert(data)
+                router_app.version = response.version;
+                router_app.type = response.type;
+                router_app.name = response.name;
+            },
+            error: function (data) {
+                alert("plugin_control:" + data);
+            }
+        });
+    }
 
     function toast(msg) {
         setTimeout(function () {

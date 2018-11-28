@@ -41,6 +41,8 @@ void killAutorun() {
 
 void
 Frp::onLaunched(const std::vector <std::string> &parameters) {
+    std::string frpcVersion = Tools::runCommand("/frp/frpc -v");
+    Tools::saveData("frpcVersion",frpcVersion);
     std::thread subthread(startFrpc);
     subthread.detach();
 
@@ -88,35 +90,25 @@ Frp::onParameterRecieved(const std::string &params) {
             config = Tools::runCommand("cat /etc/frpc_user_config.ini");
         }
         return JSONObject::success(config);
-    } else if (method == "getFrpcStatus") {
-        std::string version = Tools::runCommand("frp/frpc -v");
-
-        std::string status = Tools::runCommand(
-                "ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'");
-        Tools::runCommand(
-                "ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'>pid");
-        data.put("version", version);
-        data.put("status", status);
-
-        return JSONObject::success(data);
-
-
+    } else if (method == "getFrpcPid") {
+        //std::string pid = Tools::runCommand("ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'");
+        std::string pid = Tools::runCommand("pidof frpc");
+        Tools::runCommand("echo "+pid+">pid");
+        return JSONObject::success(pid);
     } else if (method == "runFrpc") {
         Tools::saveData("runStatus", "1");
         runFrpc();
-        return JSONObject::success();
+        std::string pid = Tools::runCommand("pidof frpc");
+        return JSONObject::success(pid);
     } else if (method == "stopFrpc") {
-
         Tools::saveData("runStatus", "0");
-
-        std::string runStatus = Tools::getData("runStatus");
-        data.put("runStatus", runStatus);
         stopFrpc();
-        return JSONObject::success(data);
+        return JSONObject::success();
     } else if (method == "restartFrpc") {
         stopFrpc();
         runFrpc();
-        return JSONObject::success(data);
+        std::string pid = Tools::runCommand("pidof frpc");
+        return JSONObject::success(pid);
     } else if (method == "showFrpcLogFile") {
         std::string file = "";
         std::string configType = Tools::getData("configType");
@@ -181,7 +173,7 @@ void Frp::runFrpc() {
     FILE *fp = NULL;
     fp = fopen("/frp/frpc_autorun.sh", "w+");
     fputs("#!/bin/ash\n", fp);
-    fputs("PID=`ps |grep 'frp/frpc'|grep -v 'grep'|grep -v '/bin/sh -c'|grep -v 'frpc_autorun.sh'|awk '{print $1}'`\n", fp);
+    fputs("PID=`pidof frpc`\n", fp);
     fputs("if [ -z $PID ]; then \n", fp);
 
     if (configType == "base") {
