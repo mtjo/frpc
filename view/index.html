@@ -443,14 +443,15 @@
                                     info: JSON.stringify({method: "restartFrpc"})
                                 },
                                 success: function (res) {
-                                    toast('Frpc进程重启成功!')
+                                    toast('Frpc进程重启成功!');
+
                                 },
                                 error: function (res) {
 
                                 }
                             });
                         }
-                        loadconfig();
+                        getFrpcPid();
 
                     },
                     error: function (data) {
@@ -618,13 +619,13 @@
         });
         //开启插件
         pluginEnable();
-        loadconfig();
+        loadConfig();
         getFrpcPid();
         getRouterInfo();
 
     });
 
-    function loadconfig() {
+    function loadConfig() {
         //类型
         routerRequest.request({
             path: "/api-third-party/service/datacenter/config_info",
