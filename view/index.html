@@ -263,10 +263,11 @@
                         名称：{{name}} 版本：<font color="green">{{type}}</font>-{{version}}
                         <hr/>
 
-                        <input type="button" onclick="pluginEnable()" value="enable"/>
-                        <input type="button" onclick="pluginDisable()" value="disable"/>
-                        <input type="button" onclick="getPluginStatus()" value="status"/>
-                        <input type="button" onclick="runCommand('pidof frpc')" value="runCommand"/>
+                        <!--<input type="button" onclick="pluginEnable()" value="enable"/>-->
+                        <!--<input type="button" onclick="pluginDisable()" value="disable"/>-->
+                        <!--<input type="button" onclick="getPluginStatus()" value="status"/>-->
+                        <!--<input type="button" onclick="runCommand('pidof frpc')" value="runCommand"/>-->
+
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
                         <font color="red">*服务端请使用对应版本</font>
@@ -275,9 +276,8 @@
                         <p>*保存配置后frpc正在运行，则进程会自动重启</p>
                         <p>*列表左滑可以删除</p>
                         <p>
-
                             <br/>
-
+                            如果发现接口报错可以尝试通过<input type="button" onclick="restartService()" value="重启服务进程"/>解决
                         <hr/>
                         捐助作者：
                         <form name="atool_alipay_img_form" style="padding-bottom: 0;border:none;" method="post"
@@ -814,7 +814,7 @@
                     toast("关闭插件错误：" + response.msg);
                     return;
                 }
-                toast(data)
+                //toast(data)
             },
             error: function (data) {
                 alert("plugin_control:" + data);
@@ -901,14 +901,14 @@
     }
 
     function toast(msg) {
-        setTimeout(function () {
+        //setTimeout(function () {
             document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML = msg;
             var toastTag = document.getElementsByClassName('toast-wrap')[0];
             toastTag.className = toastTag.className.replace('toastAnimate', '');
             setTimeout(function () {
                 toastTag.className = toastTag.className + ' toastAnimate';
             }, 100);
-        }, 500);
+        //}, 1000);
     }
 
 
@@ -926,6 +926,15 @@
         over.style.display = "none";
     }
 
+    function restartService() {
+        pluginDisable();
+        pluginEnable();
+        toast("重启成功，请重新打开插件！");
+        getFrpcPid();
+        setTimeout(function () {
+            getFrpcPid();
+        }, 10000);
+    }
 
 </script>
 
