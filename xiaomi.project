@@ -2,7 +2,7 @@
 plugin_id= "2882303761517844809";
 
 #请输入插件名称。
-name= "frp客户端";
+name= "frpc";
 
 #请输入插件介绍。
 introduction= "frpc客户端小米路由器插件,frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。";
@@ -23,7 +23,7 @@ market_icon="http://file.market.xiaomi.com/download/AppStore/0cccd84a1755e459139
 developer= "MTJO";
 
 #请输入插件版本号(格式：xx.xx.xx)。
-version= "1.0.0";
+version= "1.0.13";
 
 #请输入插件控制页面url。
 control_url= "http://mtjo.net/frpc/index.html";
@@ -44,7 +44,7 @@ sdk_level= "5";
 supported_rom= "miwifi_rom";
 
 #是否需要访问公共存储目录
-access_userdata= "true";
+access_userdata= "false";
 
 access_proc = "true";
 

@@ -119,7 +119,7 @@
 
                                     <tr v-show="common.log_on">
                                         <td class="text_right">日志记录：</td>
-                                        <td><input v-model="common.log_file" placeholder="/userdata/Frp/frpc.log"
+                                        <td><input v-model="common.log_file" placeholder="frpc.log"
                                                    type="text"></td>
                                     </tr>
                                     <!-- trace, debug, info, warn, error -->
@@ -271,7 +271,7 @@
                         <p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
                         <p>*基本配置和自定义配置是分离的，相互不会影响</p>
                         <font color="red">*服务端请使用对应版本</font>
-                        <p>*日志默认不开启，开启日志建议保存在/userdata/Frp/frpc.log方便查看（/userdata是用户数据盘目录）</p>
+                        <p>*日志默认不开启</p>
                         <font color="red">*点击保存，会保存当前页面配置，且frpc读取的是最新保存的配置</font>
                         <p>*保存配置后frpc正在运行，则进程会自动重启</p>
                         <p>*列表左滑可以删除</p>
@@ -369,7 +369,7 @@
                     tmp_config.log_file = "/dev/null"
                 }
                 if (tmp_config.log_on == true && tmp_config.log_file == "") {
-                    tmp_config.log_file = "/userdata/Frp/frpc.log"
+                    tmp_config.log_file = "frpc.log"
                 }
                 //delete tmp_config.log_on;
                 configData = {common: tmp_config};
