@@ -395,71 +395,24 @@
                 configData = encodeURIComponent(JSON.stringify(configData));
 
                 //详细列表设置
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/set_config",
-                    type: "GET",
-                    data: {
-                        appId: appId,
-                        key: "frpcConfig",
-                        value: configData
-                    },
-                    success: function (data) {
-                        var response = jQuery.parseJSON(data);
-                        if (response.code != 0) {
-                            console.log(data);
-                            alert("保存配置错误：" + response.msg);
-                            return;
-                        }
-                    },
-                    error: function (data) {
-                        console.log("set_config:", data);
-                        alert("网络失败");
-                    }
+                saveConfig("frpcConfig", configData, function (data) {
                 });
 
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_control",
-                    type: "GET",
-                    data: {
-                        appId: appId,
-                        info: JSON.stringify(datesend)
-                    },
-                    success: function (data) {
-                        var response = jQuery.parseJSON(data);
-                        if (response.code != 0) {
-                            console.log(data);
-                            alert("Frpc配置保存错误：" + response.msg);
-                            return;
-                        }
-                        //alert("配置保存成功");
+
+                pluginControl(datesend,
+                    function (data) {
                         toast('配置保存成功!')
                         if (router_app.$data.runStatus) {
-                            router_app.$data.pid = "重启中..."
-                            routerRequest.request({
-                                path: "/api-third-party/service/datacenter/plugin_control",
-                                type: "GET",
-                                data: {
-                                    appId: appId,
-                                    info: JSON.stringify({method: "restartFrpc"})
-                                },
-                                success: function (res) {
+                            router_app.$data.pid = "重启中...";
+                            pluginControl({method: "restartFrpc"},
+                                function (data) {
                                     toast('Frpc进程重启成功!');
-
-                                },
-                                error: function (res) {
-
                                 }
-                            });
+                            );
                         }
                         getFrpcPid();
-
-                    },
-                    error: function (data) {
-                        alert("saveconfig:" + data);
                     }
-                });
-
-                return;
+                );
             },
             runFrpc: function (item) {
                 if (item) {
@@ -469,34 +422,15 @@
                     method = "stopFrpc";
                     router_app.$data.pid = "停止中...";
                 }
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_control",
-                    type: "GET",
-                    data: {
-                        appId: appId,
-                        info: JSON.stringify({method: method})
-                    },
-                    success: function (data) {
-                        var response = jQuery.parseJSON(data);
-                        if (response.code != 0) {
-                            console.log(data);
-                            alert(method+"错误：" + response.msg);
-                            return;
-                        }
-                        //alert(data);
-                        if (response.data != "") {
-                            router_app.$data.runStatus = true;
-                            router_app.$data.pid = response.data;
-                        } else {
-                            router_app.$data.pid = "已停止";
-                            router_app.$data.runStatus = false;
-                        }
-
-                    },
-                    error: function (data) {
-                        alert(method+":" + data);
+                pluginControl({method: method},
+                    function (data) {
+                        setTimeout(function () {
+                            getFrpcPid();
+                        },1000);
                     }
-                });
+                );
+
+
             },//跳转
             skip() {
                 if (this.checkSlide()) {
@@ -555,60 +489,23 @@
                 router_app.$data.configList.splice(index, 1);
             },
             showFrpcLogFile() {
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_control",
-                    type: "GET",
-                    data: {
-                        appId: appId,
-                        info: JSON.stringify({method: "showFrpcLogFile"})
-                    },
-                    success: function (data) {
-                        // alert(data)
-                        var response = jQuery.parseJSON(data);
-                        if (response.code != 0) {
-                            console.log(data);
-                            alert("showFrpcLogFile：" + response.msg);
-                            return;
-                        }
-                        //alert(response.data);
-
-                        $('#log_content').text(response.data)
-                        show()
-
-
-                    },
-                    error: function (data) {
-                        alert("showFrpcLogFile:" + data);
+                pluginControl({method: "showFrpcLogFile"},
+                    function (data) {
+                        $('#log_content').text(data.data)
+                        show();
                     }
-                });
+                );
             },
             clearFrpcLogFile() {
-                routerRequest.request({
-                    path: "/api-third-party/service/datacenter/plugin_control",
-                    type: "GET",
-                    data: {
-                        appId: appId,
-                        info: JSON.stringify({method: "clearFrpcLogFile"})
-                    },
-                    success: function (data) {
-                        // alert(data)
-                        var response = jQuery.parseJSON(data);
-                        if (response.code != 0) {
-                            console.log(data);
-                            alert("showFrpcLogFile：" + response.msg);
-                            return;
-                        }
+                pluginControl({method: "clearFrpcLogFile"},
+                    function (data) {
                         toast("日志清除成功");
-                    },
-                    error: function (data) {
-                        alert("showFrpcLogFile:" + data);
                     }
-                });
+                );
             }
 
         }
     });
-
 
 
     $(document).ready(function () {
@@ -621,164 +518,104 @@
         pluginEnable();
         loadConfig();
         getFrpcPid();
-        getRouterInfo();
+        getRouterInfo(function (data) {
+            router_app.$data.version = data.version;
+            router_app.$data.type = data.type;
+            router_app.$data.name = data.name;
+
+        });
 
     });
 
     function loadConfig() {
         //类型
-        routerRequest.request({
-            path: "/api-third-party/service/datacenter/config_info",
-            type: "GET",
-            data: {
-                appId: appId,
-                key: "configType"
-            },
-            success: function (data) {
-                var response = jQuery.parseJSON(data);
-                if (response.code != 0) {
-                    console.log(data);
-                    toast("configType错误：" + response.msg);
-                    return;
-                }
-                //alert(data)
-                nowIndex = response.value == "base" ? 0 : 1;
-                router_app.$data.nowIndex = nowIndex;
-            },
-            error: function (data) {
-            }
+        getConfig("configType", function (data) {
+            nowIndex = data.value == "base" ? 0 : 1;
+            router_app.$data.nowIndex = nowIndex;
         });
+
         //FRPC 版本
-        routerRequest.request({
-            path: "/api-third-party/service/datacenter/config_info",
-            type: "GET",
-            data: {
-                appId: appId,
-                key: "frpcVersion"
-            },
-            success: function (data) {
-                var response = jQuery.parseJSON(data);
-                if (response.code != 0) {
-                    console.log(data);
-                    toast("configType错误：" + response.msg);
-                    return;
-                }
-                //alert(data)
-                router_app.$data.frpcVersion = response.value;
-            },
-            error: function (data) {
-            }
+        getConfig("frpcVersion", function (data) {
+            router_app.$data.frpcVersion = data.value;
         });
 
         //代理设置
-        routerRequest.request({
-            path: "/api-third-party/service/datacenter/config_info",
-            type: "GET",
-            data: {
-                appId: appId,
-                key: "frpcConfig"
-            },
-            success: function (data) {
-                var response = jQuery.parseJSON(data);
-                if (response.code != 0) {
-                    console.log(data);
-                    toast("frpcConfig错误：" + response.msg);
-                    return;
-                }
-                //alert(data);
-
-                frpcConfig = decodeURIComponent(response.value);
-                //alert(frpcConfig);
-                if (frpcConfig != "") {
-                    jsonobj = jQuery.parseJSON(frpcConfig);
-
-                    //alert(jsonobj)
-                    i = 0
-                    $.each(jsonobj, function (index, item) {
-                        if (index == "common") {
-                            commonConfig = item;
-                        } else {
-                            item['name'] = index;
-                            configList[i++] = item;
-                        }
-
-                    });
-                    //alert(JSON.stringify(commonConfig));
-                    //alert(JSON.stringify(configList));
-                }
-
-                router_app.$data.common = commonConfig;
-                router_app.$data.configList = configList;
-
-            },
-            error: function (data) {
-                console.log("error:", data);
-                alert("网络失败");
+        getConfig("frpcConfig", function (data) {
+            frpcConfig = decodeURIComponent(data.value);
+            if (frpcConfig != "") {
+                jsonobj = jQuery.parseJSON(frpcConfig);
+                i = 0
+                $.each(jsonobj, function (index, item) {
+                    if (index == "common") {
+                        commonConfig = item;
+                    } else {
+                        item['name'] = index;
+                        configList[i++] = item;
+                    }
+                });
             }
+            router_app.$data.common = commonConfig;
+            router_app.$data.configList = configList;
         });
+
 
         //自定义配置
-        routerRequest.request({
-            path: "/api-third-party/service/datacenter/plugin_control",
-            type: "GET",
-            data: {
-                appId: appId,
-                info: JSON.stringify({method: "getFrpcConfig", type: "user"})
-            },
-            success: function (data) {
-                var response = jQuery.parseJSON(data);
-                if (response.code != 0) {
-                    console.log(data);
-                    toast("method: \"getFrpcConfig\"\n错误：" + response.msg);
-                    return;
-                }
-                //alert(response.data);
-                router_app.$data.user_config = response.data;
-
-            },
-            error: function (data) {
-            }
-        });
-
+        pluginControl({method: "getFrpcConfig", type: "user"},
+            function (data) {
+                router_app.$data.user_config = data.data;
+            });
 
     }
 
     //获取进程状态
-    function getFrpcPid(){
+    function getFrpcPid() {
         //插件状态
+        pluginControl({method: "getFrpcPid"}, function (data) {
+            if (data.data != "") {
+                router_app.$data.runStatus = true;
+                router_app.$data.pid = data.data;
+            } else {
+                router_app.$data.pid = "未运行";
+                router_app.$data.runStatus = false;
+            }
+
+        })
+
+    }
+
+    function pluginControl(pargams, callback) {
+
+        method = pargams.method;
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_control",
             type: "GET",
             data: {
                 appId: appId,
-                info: JSON.stringify({method: "getFrpcPid"})
+                info: JSON.stringify(pargams)
             },
             success: function (data) {
-
                 var response = jQuery.parseJSON(data);
                 if (response.code != 0) {
                     console.log(data);
-                    toast("method: \"getFrpcPid\" \n错误：" + response.msg);
+                    if (response.code == -1 ||response.code == 6) {
+                        restartService()
+                    }
+
+                    toast(method + " 错误：" + response.msg);
                     return;
                 }
-                if (response.data != "") {
-                    router_app.$data.runStatus = true;
-                    router_app.$data.pid = response.data;
-                } else {
-                    router_app.$data.pid = "未运行";
-                    router_app.$data.runStatus = false;
-                }
+                callback(response);
+
             },
             error: function (data) {
-                alert("getFrpcPid:" + data);
+                alert(method + ":" + data);
             }
         });
     }
 
 
-
     //开启插件
-    function pluginEnable() {
+    function pluginEnable(callback) {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_enable",
             type: "GET",
@@ -792,6 +629,7 @@
                     toast("启动插件错误：" + response.msg);
                     return;
                 }
+                callback(response);
                 //toast(data)
             },
             error: function (data) {
@@ -801,7 +639,7 @@
     }
 
     //关闭插件
-    function pluginDisable() {
+    function pluginDisable(callback) {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_disable",
             type: "GET",
@@ -815,6 +653,7 @@
                     toast("关闭插件错误：" + response.msg);
                     return;
                 }
+                callback(response);
                 //toast(data)
             },
             error: function (data) {
@@ -823,8 +662,9 @@
         });
     }
 
+
     //获取插件开启关闭状态
-    function getPluginStatus() {
+    function getPluginStatus(callback) {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/get_plugin_status",
             type: "GET",
@@ -838,7 +678,7 @@
                     toast("获取插件开启关闭状态错误：" + response.msg);
                     return;
                 }
-                toast(data)
+                callback(response)
             },
             error: function (data) {
                 alert("plugin_control:" + data);
@@ -847,7 +687,7 @@
     }
 
 
-    function runCommand(command) {
+    function runCommand(command, callback) {
         //插件状态
         routerRequest.request({
             path: "/api-third-party/service/datacenter/plugin_control",
@@ -864,19 +704,69 @@
                     toast("runCommand错误：" + response.msg);
                     return;
                 }
-                alert(response.data)
-
+                callback(response);
 
             },
             error: function (data) {
-                alert("plugin_control:" + data);
+                alert("runCommand:" + data);
             }
         });
 
     }
 
+    function getConfig(key, callback) {
+        //代理设置
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/config_info",
+            type: "GET",
+            data: {
+                appId: appId,
+                key: key
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    toast(key + " 错误：" + response.msg);
+                    return;
+                }
+                callback(response);
+            },
+            error: function (data) {
+                console.log("error:", data);
+                alert("网络失败");
+            }
+        });
+    }
+
+    function saveConfig(key, value, callback) {
+        //代理设置
+        routerRequest.request({
+            path: "/api-third-party/service/datacenter/set_config",
+            type: "GET",
+            data: {
+                appId: appId,
+                key: key,
+                value: value
+            },
+            success: function (data) {
+                var response = jQuery.parseJSON(data);
+                if (response.code != 0) {
+                    console.log(data);
+                    alert("保存配置错误：" + response.msg);
+                    return;
+                }
+                callback(data);
+            },
+            error: function (data) {
+                alert("网络失败");
+            }
+        });
+    }
+
+
     //获取路由器信息
-    function getRouterInfo() {
+    function getRouterInfo(callback) {
         routerRequest.request({
             path: "/api-third-party/service/datacenter/get_router_info",
             type: "GET",
@@ -890,10 +780,7 @@
                     toast("获取路由器信息错误：" + response.msg);
                     return;
                 }
-                //alert(data)
-                router_app.version = response.version;
-                router_app.type = response.type;
-                router_app.name = response.name;
+                callback(response);
             },
             error: function (data) {
                 alert("plugin_control:" + data);
@@ -901,14 +788,15 @@
         });
     }
 
+
     function toast(msg) {
         //setTimeout(function () {
-            document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML = msg;
-            var toastTag = document.getElementsByClassName('toast-wrap')[0];
-            toastTag.className = toastTag.className.replace('toastAnimate', '');
-            setTimeout(function () {
-                toastTag.className = toastTag.className + ' toastAnimate';
-            }, 100);
+        document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML = msg;
+        var toastTag = document.getElementsByClassName('toast-wrap')[0];
+        toastTag.className = toastTag.className.replace('toastAnimate', '');
+        setTimeout(function () {
+            toastTag.className = toastTag.className + ' toastAnimate';
+        }, 1000);
         //}, 1000);
     }
 
@@ -934,7 +822,7 @@
         getFrpcPid();
         setTimeout(function () {
             getFrpcPid();
-        }, 10000);
+        }, 1000);
     }
 
 </script>
