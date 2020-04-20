@@ -1,2 +1,1 @@
-MKDIR /userdata/Frp/
-RUN Frpc
+RUN init.sh
