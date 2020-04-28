@@ -1,7 +1,7 @@
 # frpc
 
 启动支持方法
-
+```
 MKDIR /var/run/avahi-daemon
 MKDIR /etc/dbus-1/system.d
 RUN /usr/sbin/avahi-daemon -D
@@ -22,3 +22,4 @@ STOPPED /usr/sbin/netatalk
 STOPPED /usr/sbin/afpd -d -F /etc/netatalk/afp.conf
 STOPPED /usr/sbin/cnid_metad -d -F /etc/netatalk/afp.conf
 STOPPED /usr/sbin/cnid_dbd -F /etc/netatalk/afp.conf
+```
